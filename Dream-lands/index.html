@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dream Lands — Building Dreams. Creating Landmarks. | RAJUK Registered</title>
+<meta name="description" content="Dream Lands is a RAJUK registered real estate developer in Bangladesh with 12+ years of trust. Planned communities, premium towers and resort destinations across Dhaka, Keraniganj and Cox's Bazar." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style>
+  :root{
+    --ink:#06080b;
+    --ink2:#0b0f14;
+    --ink3:#111820;
+    --gold:#d3ab63;
+    --gold2:#f4dca6;
+    --gold3:#8c6a2e;
+    --jade:#3ec7a4;
+    --paper:#f6f2ea;
+    --muted:#a4adb8;
+    --line:rgba(211,171,99,.24);
+    --line2:rgba(255,255,255,.08);
+    --grad-gold:linear-gradient(135deg,#f4dca6 0%,#d3ab63 45%,#9a7535 100%);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ink);color:#e8ecf1;
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3,h4,.display{font-family:'Playfair Display',serif;font-weight:600;line-height:1.1;letter-spacing:-.01em}
+  .bn{font-family:'Hind Siliguri','Inter',sans-serif}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  ::selection{background:var(--gold);color:#0a0a0a}
+
+  /* ambient background */
+  .bg-fx{position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(900px 500px at 12% -5%,rgba(211,171,99,.16),transparent 60%),
+      radial-gradient(800px 600px at 92% 8%,rgba(62,199,164,.10),transparent 62%),
+      radial-gradient(1000px 700px at 50% 110%,rgba(211,171,99,.08),transparent 60%),
+      linear-gradient(180deg,#06080b,#080b10 60%,#06080b);
+  }
+  .bg-grid{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:72px 72px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,#000 20%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,#000 20%,transparent 75%);
+  }
+  .noise{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 22px}
+  .narrow{max-width:980px}
+
+  /* ============ TOP BAR ============ */
+  .topbar{background:linear-gradient(90deg,#0b0f14,#141b23 50%,#0b0f14);border-bottom:1px solid var(--line2);font-size:12.5px}
+  .topbar .inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:42px}
+  .chip-rajuk{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(211,171,99,.08)}
+  .chip-rajuk b{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.18em;font-size:11px}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--jade);box-shadow:0 0 10px var(--jade);animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  .tb-links{display:flex;align-items:center;gap:20px;color:var(--muted)}
+  .tb-links a:hover{color:var(--gold2)}
+  .hide-sm{display:inline-flex}
+  @media(max-width:860px){.hide-sm{display:none}.topbar .inner{justify-content:center}}
+
+  /* ============ NAV ============ */
+  header.nav{position:sticky;top:0;z-index:80;backdrop-filter:blur(18px);background:rgba(6,8,11,.72);border-bottom:1px solid var(--line2);transition:.35s}
+  header.nav.solid{background:rgba(6,8,11,.94);border-bottom-color:var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:78px;gap:18px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{width:44px;height:44px;border-radius:12px;background:var(--grad-gold);display:grid;place-items:center;color:#0a0c0f;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;box-shadow:0 8px 26px rgba(211,171,99,.3)}
+  .brand-txt strong{display:block;font-family:'Playfair Display',serif;font-size:20px;letter-spacing:.02em;line-height:1}
+  .brand-txt span{font-size:9.5px;letter-spacing:.34em;color:var(--gold);text-transform:uppercase}
+  .menu{display:flex;align-items:center;gap:4px}
+  .menu>a,.menu>.drop>button{padding:10px 14px;border-radius:10px;font-size:13.5px;font-weight:500;color:#cfd6de;background:none;border:0;cursor:pointer;font-family:inherit;transition:.25s}
+  .menu>a:hover,.menu>a.active,.menu>.drop>button.active{color:#fff;background:rgba(255,255,255,.06)}
+  .menu>a.active,.menu>.drop>button.active{color:var(--gold2);box-shadow:inset 0 -2px 0 var(--gold)}
+  .drop{position:relative}
+  .drop-panel{position:absolute;top:calc(100% + 12px);left:0;min-width:250px;background:#0c1117;border:1px solid var(--line2);border-radius:16px;padding:8px;box-shadow:0 30px 70px rgba(0,0,0,.6);opacity:0;visibility:hidden;transform:translateY(8px);transition:.25s}
+  .drop:hover .drop-panel{opacity:1;visibility:visible;transform:translateY(0)}
+  .drop-panel a{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:10px;transition:.2s}
+  .drop-panel a:hover{background:rgba(211,171,99,.1)}
+  .drop-panel a small{color:var(--muted);font-size:11.5px}
+  .nav-cta{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;background:var(--grad-gold);color:#0a0c0f;font-weight:700;font-size:13px;white-space:nowrap;box-shadow:0 10px 30px rgba(211,171,99,.25);transition:.3s}
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(211,171,99,.4)}
+  .burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,.04);align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer}
+  .burger i{display:block;width:18px;height:1.6px;background:#e8ecf1;transition:.3s}
+  .burger.open i:first-child{transform:translateY(6.6px) rotate(45deg)}
+  .burger.open i:nth-child(2){opacity:0}
+  .burger.open i:last-child{transform:translateY(-6.6px) rotate(-45deg)}
+  @media(max-width:1080px){.menu,.nav-cta{display:none}.burger{display:flex}}
+  .mobile{display:none;border-bottom:1px solid var(--line2);background:#080b10}
+  .mobile.open{display:block}
+  .mobile a{display:block;padding:13px 22px;border-bottom:1px solid rgba(255,255,255,.05);font-size:14.5px}
+  .mobile a.sub{padding-left:38px;color:var(--muted);font-size:13.5px}
+  .mobile a:hover{color:var(--gold2);background:rgba(211,171,99,.07)}
+
+  /* progress */
+  .prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--grad-gold);z-index:99}
+
+  /* ============ PAGE SYSTEM ============ */
+  .page{display:none;animation:fadeUp .5s ease both}
+  .page.active{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  section.blk{padding:96px 0;position:relative}
+  @media(max-width:760px){section.blk{padding:64px 0}}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--gold);opacity:.6}
+  .gold-txt{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{color:var(--muted);font-size:16px;line-height:1.8;font-weight:300}
+  .sec-head{max-width:760px;margin-bottom:52px}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-size:13.5px;font-weight:600;transition:.3s;cursor:pointer;border:1px solid transparent}
+  .btn-gold{background:var(--grad-gold);color:#0a0c0f;box-shadow:0 12px 34px rgba(211,171,99,.25)}
+  .btn-gold:hover{transform:translateY(-3px);box-shadow:0 18px 46px rgba(211,171,99,.4)}
+  .btn-ghost{border-color:var(--line);color:#e9eef4;background:rgba(255,255,255,.02)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold2);background:rgba(211,171,99,.08)}
+
+  /* cards */
+  .card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));border:1px solid var(--line2);border-radius:22px;overflow:hidden;transition:.4s}
+  .card:hover{border-color:var(--line);transform:translateY(-6px);box-shadow:0 30px 60px -20px rgba(0,0,0,.7)}
+  .glass{background:rgba(12,17,23,.72);backdrop-filter:blur(14px);border:1px solid var(--line2);border-radius:22px}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(28px);transition:.8s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+
+  /* ============ HERO ============ */
+  .hero{padding:84px 0 96px;position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  @media(max-width:980px){.hero-grid{grid-template-columns:1fr;gap:44px}}
+  .hero h1{font-size:clamp(42px,6.4vw,80px);line-height:.98;margin:20px 0 0}
+  .hero h1 em{font-style:italic;font-weight:500;color:var(--gold2)}
+  .hero-rule{width:88px;height:2px;background:var(--grad-gold);margin:30px 0}
+  .hero p.lead{max-width:520px}
+  .hero-img{position:relative}
+  .hero-img .frame{border-radius:26px;overflow:hidden;border:1px solid var(--line);box-shadow:0 40px 90px -30px rgba(0,0,0,.9)}
+  .hero-img img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+  .stamp{position:absolute;right:-14px;top:-26px;width:118px;height:118px;border-radius:50%;display:grid;place-items:center;text-align:center;background:rgba(8,11,16,.9);border:1px dashed var(--gold);color:var(--gold2);font-size:10px;letter-spacing:.14em;line-height:1.5;animation:spinSlow 22s linear infinite}
+  @keyframes spinSlow{to{transform:rotate(360deg)}}
+  .stamp span{animation:spinSlow 22s linear infinite reverse}
+  .float-badge{position:absolute;left:-18px;bottom:34px;padding:14px 18px;border-radius:16px}
+  .float-badge b{font-family:'Playfair Display',serif;font-size:26px;display:block;line-height:1}
+  .float-badge small{color:var(--muted);font-size:11px;letter-spacing:.14em}
+
+  /* ============ STATS ============ */
+  .stat-band{background:linear-gradient(180deg,rgba(211,171,99,.07),transparent);border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line2)}
+  @media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--ink);padding:44px 26px;text-align:center;position:relative;overflow:hidden}
+  .stat:hover{background:#0a0e13}
+  .stat .num{font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,58px);line-height:1}
+  .stat label{display:block;margin-top:10px;font-size:11px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+  .stat.rajuk{background:linear-gradient(150deg,rgba(211,171,99,.16),rgba(211,171,99,.03))}
+
+  /* ============ ABOUT ============ */
+  .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+  @media(max-width:980px){.about-grid{grid-template-columns:1fr;gap:40px}}
+  .about-img{position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line)}
+  .about-img img{aspect-ratio:4/3.2;object-fit:cover;width:100%}
+  .about-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,11,.65),transparent 55%)}
+  .badge-12{position:absolute;left:22px;bottom:22px;z-index:2;padding:14px 20px;border-radius:16px}
+  .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:32px}
+  @media(max-width:620px){.feat-grid{grid-template-columns:1fr}}
+  .feat{padding:22px;border-radius:18px;border:1px solid var(--line2);background:rgba(255,255,255,.025);transition:.35s}
+  .feat:hover{border-color:var(--line);background:rgba(211,171,99,.07);transform:translateY(-4px)}
+  .feat h4{font-size:17px;color:var(--gold2);margin-bottom:8px}
+  .feat p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.7;font-weight:300}
+  .feat .ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:rgba(211,171,99,.12);border:1px solid var(--line);margin-bottom:14px;font-size:16px}
+
+  /* ============ PROPERTIES ============ */
+  .filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+  .filters button{padding:9px 18px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:#c9d1da;font-size:12.5px;cursor:pointer;transition:.25s;font-family:inherit}
+  .filters button.on{background:var(--grad-gold);color:#0a0c0f;border-color:transparent;font-weight:700}
+  .filters button:hover:not(.on){border-color:var(--gold);color:var(--gold2)}
+  .prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px}
+  .prop .thumb{position:relative;overflow:hidden;aspect-ratio:16/11}
+  .prop .thumb img{width:100%;height:100%;object-fit:cover;transition:1.1s cubic-bezier(.2,.7,.2,1)}
+  .prop:hover .thumb img{transform:scale(1.09)}
+  .prop .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,11,.92),rgba(6,8,11,.15) 60%,transparent)}
+  .tags{position:absolute;left:14px;top:14px;display:flex;flex-wrap:wrap;gap:6px;z-index:2}
+  .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:rgba(6,8,11,.7);border:1px solid var(--line2);backdrop-filter:blur(6px)}
+  .tag.hot{background:var(--grad-gold);color:#0a0c0f;font-weight:700;border:0}
+  .prop .body{padding:22px 22px 26px}
+  .prop h3{font-size:22px;margin:0 0 8px}
+  .prop h3 a:hover{color:var(--gold2)}
+  .prop p{color:var(--muted);font-size:13.5px;line-height:1.7;margin:0 0 16px;font-weight:300}
+  .more{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .more:hover{color:var(--gold2);gap:14px;transition:.3s}
+
+  /* ============ ONGOING BAND ============ */
+  .band{background:linear-gradient(115deg,#0c1117,#141c25 45%,#0c1117);border-block:1px solid var(--line)}
+  .band-inner{display:flex;align-items:center;justify-content:space-between;gap:34px;padding:56px 0;flex-wrap:wrap}
+  .seal{width:112px;height:112px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;text-align:center;position:relative;flex:none}
+  .seal::before{content:"";position:absolute;inset:7px;border-radius:50%;border:1px dashed rgba(211,171,99,.5)}
+  .seal b{font-family:'Playfair Display',serif;font-size:16px;letter-spacing:.12em;display:block;line-height:1}
+  .seal small{font-size:8.5px;letter-spacing:.2em;color:var(--gold)}
+  .active-projects{display:flex;align-items:center;gap:14px}
+  .active-projects b{font-family:'Playfair Display',serif;font-size:64px;line-height:1}
+  .ticker{margin-top:6px;padding:14px 0;border-top:1px solid var(--line2)}
+  .ticker p{margin:0;text-align:center;font-size:14px;color:var(--gold2);letter-spacing:.04em}
+
+  /* ============ WHY ============ */
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:24px}
+  .why{padding:32px 28px;border-radius:22px;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line2);transition:.4s}
+  .why:hover{border-color:var(--line);transform:translateY(-8px)}
+  .why .idx{font-family:'Playfair Display',serif;font-size:52px;line-height:1;color:rgba(211,171,99,.22);position:absolute;right:22px;top:14px}
+  .why h3{font-size:21px;margin:16px 0 10px}
+  .why p{color:var(--muted);font-size:14px;line-height:1.75;margin:0;font-weight:300}
+  .why .bar{width:44px;height:2px;background:var(--grad-gold)}
+
+  /* ============ TESTIMONIALS ============ */
+  .quote-band{background:linear-gradient(180deg,rgba(62,199,164,.05),transparent)}
+  .marquee{overflow:hidden;position:relative;border-block:1px solid var(--line2);padding:26px 0;
+    mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .marquee-track{display:flex;gap:26px;width:max-content;animation:scroll 42s linear infinite}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  .mm-card{width:400px;flex:none;padding:24px;border-radius:20px;background:rgba(255,255,255,.03);border:1px solid var(--line2);display:flex;flex-direction:column;gap:12px}
+  .mm-card img{width:78px;height:78px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex:none}
+  .mm-card .row{display:flex;gap:18px;align-items:flex-start}
+  @media(max-width:560px){.mm-card{width:320px}.mm-card img{width:60px;height:60px}}
+  .mm-card p{margin:0 0 10px;font-size:14px;line-height:1.75;color:#d6dde5}
+  .mm-card cite{font-style:normal;font-weight:600;font-size:14px;color:var(--gold2)}
+  .mm-card cite span{color:var(--muted);font-weight:400}
+  .verified{display:inline-block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--jade);border:1px solid rgba(62,199,164,.35);padding:3px 9px;border-radius:999px;margin-bottom:10px}
+  .t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px;margin-top:38px}
+  .t-card{padding:32px 26px;border-radius:22px;background:rgba(255,255,255,.028);border:1px solid var(--line2);position:relative;transition:.4s}
+  .t-card:hover{border-color:var(--line);transform:translateY(-6px)}
+  .t-card .qm{font-family:'Playfair Display',serif;font-size:64px;line-height:.6;color:rgba(211,171,99,.28);display:block;margin-bottom:14px}
+  .t-card blockquote{margin:0 0 22px;font-size:14.5px;line-height:1.85;color:#dde3ea;font-weight:300}
+  .t-card .who{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line2);padding-top:20px}
+  .t-card .who img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+  .t-card .who cite{font-style:normal;font-weight:600;display:block;font-size:14.5px}
+  .t-card .who span{color:var(--muted);font-size:12px}
+
+  /* ============ TEAM ============ */
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+  .member{position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line2);background:#0a0e13;transition:.45s}
+  .member:hover{border-color:var(--line);transform:translateY(-8px)}
+  .member .ph{aspect-ratio:1/1.06;overflow:hidden;background:radial-gradient(circle at 50% 20%,rgba(211,171,99,.14),transparent 60%)}
+  .member .ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(.35) contrast(1.05);transition:.7s}
+  .member:hover .ph img{filter:none;transform:scale(1.05)}
+  .member .meta{padding:20px 22px 26px}
+  .member .meta h3{margin:0 0 4px;font-size:20px}
+  .member .meta span{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+
+  /* ============ CTA + CONTACT ============ */
+  .cta{position:relative;overflow:hidden;border-radius:30px;padding:70px 50px;text-align:center;border:1px solid var(--line);
+    background:radial-gradient(700px 320px at 50% -20%,rgba(211,171,99,.22),transparent 65%),linear-gradient(180deg,#0c1117,#080b10)}
+  @media(max-width:700px){.cta{padding:50px 24px}}
+  .cta h2{font-size:clamp(28px,4.4vw,50px);margin:16px auto 18px;max-width:820px}
+  .contact-grid{display:grid;grid-template-columns:1fr .85fr;gap:34px}
+  @media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+  .field{display:block;margin-bottom:16px}
+  .field span{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .field input,.field select,.field textarea{width:100%;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid var(--line2);color:#eef2f6;font-family:inherit;font-size:14px;transition:.25s;outline:none}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);background:rgba(211,171,99,.06)}
+  .field textarea{min-height:120px;resize:vertical}
+  .info-row{display:flex;gap:14px;align-items:flex-start;padding:18px 0;border-bottom:1px dashed var(--line2)}
+  .info-row:last-child{border:0}
+  .info-row .ic{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;background:rgba(211,171,99,.1);border:1px solid var(--line);color:var(--gold2)}
+  .info-row small{display:block;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .info-row b{font-weight:500;font-size:14.5px}
+
+  /* ============ FOOTER ============ */
+  footer.ft{border-top:1px solid var(--line2);background:#05070a;padding:66px 0 28px;margin-top:20px}
+  .ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+  @media(max-width:900px){.ft-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.ft-grid{grid-template-columns:1fr}}
+  .ft h5{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin:0 0 18px;font-family:'Inter',sans-serif;font-weight:700}
+  .ft ul{list-style:none;padding:0;margin:0}
+  .ft li{margin-bottom:11px;font-size:13.5px;color:var(--muted)}
+  .ft a:hover{color:var(--gold2)}
+  .socials{display:flex;gap:10px;margin-top:20px}
+  .socials a{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);display:grid;place-items:center;font-size:12px;color:#cfd6de;transition:.3s}
+  .socials a:hover{background:var(--grad-gold);color:#0a0c0f;border-color:transparent;transform:translateY(-3px)}
+  .ft-bot{margin-top:46px;padding-top:22px;border-top:1px solid var(--line2);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12px;color:#78828d}
+
+  /* ============ PROJECT PAGES ============ */
+  .p-hero{position:relative;min-height:60vh;display:flex;align-items:center;overflow:hidden}
+  .p-hero .bgimg{position:absolute;inset:0}
+  .p-hero .bgimg img{width:100%;height:100%;object-fit:cover;opacity:.42}
+  .p-hero .bgimg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,8,11,.75),rgba(6,8,11,.55) 40%,var(--ink))}
+  .p-hero .in{position:relative;z-index:2;padding:80px 0}
+  .crumbs{font-size:12px;color:var(--muted);letter-spacing:.08em;margin-bottom:16px}
+  .crumbs a:hover{color:var(--gold2)}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(211,171,99,.1);font-size:12px;color:var(--gold2);margin-bottom:18px}
+  .spec-table{width:100%;border-collapse:collapse}
+  .spec-table tr{border-bottom:1px solid var(--line2)}
+  .spec-table td{padding:16px 14px;font-size:14px;vertical-align:top}
+  .spec-table td:first-child{color:var(--muted);font-size:11px;letter-spacing:.16em;text-transform:uppercase;width:38%}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+  .tile{padding:24px;border-radius:18px;border:1px solid var(--line2);background:rgba(255,255,255,.028);text-align:center;transition:.35s}
+  .tile:hover{border-color:var(--line);transform:translateY(-5px)}
+  .tile b{font-family:'Playfair Display',serif;font-size:38px;display:block;line-height:1}
+  .tile small{display:block;margin-top:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .checks{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .checks li{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:#d5dce4;line-height:1.6;font-weight:300}
+  .checks li::before{content:"◆";color:var(--gold);font-size:10px;margin-top:5px;flex:none}
+  .plot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  .plot{padding:22px 14px;border-radius:16px;text-align:center;border:1px solid var(--line2);background:linear-gradient(180deg,rgba(211,171,99,.09),transparent)}
+  .plot small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .plot b{display:block;font-family:'Playfair Display',serif;font-size:34px;line-height:1.1;margin:8px 0 2px}
+  .plot span{font-size:11px;color:var(--gold)}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  @media(max-width:820px){.two-col{grid-template-columns:1fr}}
+  .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .gal figure{margin:0;border-radius:18px;overflow:hidden;border:1px solid var(--line2)}
+  .gal img{aspect-ratio:4/3;object-fit:cover;width:100%;transition:.7s}
+  .gal figure:hover img{transform:scale(1.06)}
+  .tier{padding:28px 24px;border-radius:22px;border:1px solid var(--line2);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));transition:.4s;position:relative}
+  .tier:hover{border-color:var(--gold);transform:translateY(-7px)}
+  .tier.top{border-color:var(--gold);background:linear-gradient(180deg,rgba(211,171,99,.14),rgba(211,171,99,.02))}
+  .tier .off{font-family:'Playfair Display',serif;font-size:46px;line-height:1}
+  .tier h4{margin:14px 0 4px;font-size:20px}
+  .tier .sq{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+  .tier ul{list-style:none;padding:0;margin:18px 0 0}
+  .tier li{font-size:13px;color:var(--muted);padding:7px 0;border-top:1px dashed var(--line2);line-height:1.55}
+  .note{font-size:12px;color:#7d8792;font-style:italic}
+  .anchor-nav{display:flex;flex-wrap:wrap;gap:10px;padding:16px 0;border-block:1px solid var(--line2);margin-bottom:10px}
+  .anchor-nav a{font-size:12px;padding:8px 16px;border-radius:999px;border:1px solid var(--line2);color:#c3ccd6;transition:.25s}
+  .anchor-nav a:hover{border-color:var(--gold);color:var(--gold2)}
+  section[id],div[id]{scroll-margin-top:130px}
+  .dropbtn{display:inline-flex;align-items:center;gap:6px}
+
+  /* ===== CURRENCY TOGGLE ===== */
+  .cur-toggle{display:inline-flex;padding:3px;border-radius:999px;border:1px solid var(--line);background:rgba(211,171,99,.06)}
+  .cur-toggle button{border:0;background:none;color:#cfd6de;font:600 11px/1 'Inter',sans-serif;letter-spacing:.1em;padding:6px 14px;border-radius:999px;cursor:pointer;transition:.25s}
+  .cur-toggle button.on{background:var(--grad-gold);color:#0a0c0f}
+  .cur-toggle button:hover:not(.on){color:var(--gold2)}
+  .cur-note{font-size:9.5px;color:#6f7a86;letter-spacing:.06em}
+
+  /* ===== PRICE LIST ===== */
+  .price-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;margin-top:36px}
+  .price-card{padding:22px;border-radius:18px;border:1px solid var(--line2);background:rgba(255,255,255,.028);transition:.35s;cursor:pointer}
+  .price-card:hover{border-color:var(--gold);transform:translateY(-5px);background:rgba(211,171,99,.07)}
+  .price-card.sel{border-color:var(--gold);background:rgba(211,171,99,.1)}
+  .price-card small{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .price-card b{font-family:'Playfair Display',serif;font-size:25px;display:block;color:var(--gold2);line-height:1.1}
+  .price-card span.unit{font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .price-card em{display:block;font-style:normal;font-size:10.5px;color:var(--jade);margin-top:10px;letter-spacing:.12em;text-transform:uppercase}
+  .start-line{display:flex;align-items:baseline;gap:7px;margin:0 0 16px;padding-top:14px;border-top:1px dashed var(--line2);flex-wrap:wrap}
+  .start-line small{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .start-line b{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold2);line-height:1}
+  .start-line i{font-style:normal;font-size:11px;color:var(--muted)}
+
+  /* ===== EMI CALCULATOR ===== */
+  .calc{display:grid;grid-template-columns:1.05fr .95fr;gap:0;border-radius:26px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+  @media(max-width:900px){.calc{grid-template-columns:1fr}}
+  .calc-in{padding:34px}
+  .calc-out{padding:34px;background:linear-gradient(160deg,rgba(211,171,99,.15),rgba(62,199,164,.05));border-left:1px solid var(--line)}
+  @media(max-width:900px){.calc-out{border-left:0;border-top:1px solid var(--line)}}
+  @media(max-width:600px){.calc-in,.calc-out{padding:24px}}
+  .calc-row{margin-bottom:20px}
+  .calc-row>label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .calc-row>label b{color:var(--gold2);font-family:'Playfair Display',serif;font-size:16px;letter-spacing:0;text-transform:none}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:99px;background:linear-gradient(90deg,var(--gold),rgba(255,255,255,.12));outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--grad-gold);border:3px solid #0a0e13;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.6)}
+  input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--gold);border:3px solid #0a0e13;cursor:pointer}
+  .seg{display:flex;flex-wrap:wrap;gap:8px}
+  .seg button{padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:#c9d1da;font:500 12px 'Inter',sans-serif;cursor:pointer;transition:.25s}
+  .seg button.on{background:var(--grad-gold);color:#0a0c0f;border-color:transparent;font-weight:700}
+  .seg button:hover:not(.on){border-color:var(--gold);color:var(--gold2)}
+  .out-line{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px dashed rgba(255,255,255,.14);font-size:13px;color:#c9d2db}
+  .out-line b{font-family:'Playfair Display',serif;font-size:19px;color:#fff;font-weight:600}
+  .out-line.total{background:rgba(6,8,11,.35);border:1px solid var(--gold);border-radius:16px;padding:16px 18px;margin-top:16px}
+  .out-line.total span{color:#fff;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  .out-line.total b{font-size:29px;color:var(--gold2)}
+  .bar-visual{display:flex;height:11px;border-radius:99px;overflow:hidden;margin:20px 0 10px;border:1px solid rgba(255,255,255,.14)}
+  .bar-visual i{display:block;height:100%;transition:width .5s ease}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:#b9c2cc;margin-bottom:18px}
+  .legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+  /* ===== FAQ ===== */
+  .faq{border:1px solid var(--line2);border-radius:20px;overflow:hidden;background:rgba(255,255,255,.025);margin-bottom:12px;transition:.3s}
+  .faq.open{border-color:var(--gold);background:rgba(211,171,99,.06)}
+  .faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:21px 24px;background:none;border:0;color:#eef2f6;font:600 15.5px 'Inter',sans-serif;text-align:left;cursor:pointer;line-height:1.5}
+  .faq-q:hover{color:var(--gold2)}
+  .faq-q .pm{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--gold);font-size:16px;transition:.35s}
+  .faq.open .faq-q .pm{background:var(--grad-gold);color:#0a0c0f;transform:rotate(45deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.2,.7,.2,1)}
+  .faq-a>div{padding:0 24px 24px;color:var(--muted);font-size:14px;line-height:1.85;font-weight:300}
+  .faq-cat{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin:38px 0 18px;font-weight:700}
+  .faq-cat:first-child{margin-top:0}
+  .faq-wrap{display:grid;grid-template-columns:1fr .62fr;gap:44px;align-items:start}
+  @media(max-width:940px){.faq-wrap{grid-template-columns:1fr}}
+
+  /* ===== TABS / SELECT / PRICING TABLE ===== */
+  .tabs{display:flex;gap:6px;padding:5px;border-radius:16px;border:1px solid var(--line2);background:rgba(255,255,255,.03);width:max-content;max-width:100%;margin-bottom:26px}
+  @media(max-width:620px){.tabs{width:100%}}
+  .tabs button{flex:1;padding:11px 22px;border:0;border-radius:11px;background:none;color:#c6cfd9;font:600 13px 'Inter',sans-serif;cursor:pointer;transition:.3s;white-space:nowrap}
+  .tabs button.on{background:var(--grad-gold);color:#0a0c0f;box-shadow:0 8px 22px rgba(211,171,99,.28)}
+  .tabs button:hover:not(.on){color:var(--gold2)}
+  select.dl{width:100%;padding:13px 42px 13px 15px;border-radius:14px;background:rgba(255,255,255,.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23d3ab63' d='M6 8 0 0h12z'/%3E%3C/svg%3E") no-repeat right 16px center;border:1px solid var(--line2);color:#eef2f6;font:500 13.5px 'Inter',sans-serif;appearance:none;outline:none;transition:.25s;cursor:pointer}
+  select.dl:focus{border-color:var(--gold);background-color:rgba(211,171,99,.08)}
+  select.dl option{background:#0c1117;color:#eef2f6}
+  .opt-group{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+  .tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+  .tbl th{text-align:left;font:700 10px 'Inter',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);padding:14px 12px;border-bottom:1px solid var(--line)}
+  .tbl td{padding:13px 12px;border-bottom:1px solid var(--line2);color:#d3dae2;vertical-align:middle}
+  .tbl tr:hover td{background:rgba(211,171,99,.055)}
+  .tbl td.pr{font-family:'Playfair Display',serif;font-size:17px;color:var(--gold2);white-space:nowrap}
+  .tbl-wrap{border:1px solid var(--line2);border-radius:20px;overflow:hidden;background:rgba(255,255,255,.02)}
+  .tbl-scroll{overflow-x:auto}
+  .pill-sm{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:rgba(62,199,164,.14);color:var(--jade);border:1px solid rgba(62,199,164,.3);white-space:nowrap}
+
+  /* COMPACT PROJECT PRICING — accordion layout */
+  .pricing-directory{border:1px solid var(--line2);border-radius:20px;overflow:hidden;background:rgba(255,255,255,.018)}
+  .pricing-tools{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border-bottom:1px solid var(--line2);background:linear-gradient(180deg,rgba(211,171,99,.08),rgba(255,255,255,.015))}
+  .pricing-tools-kicker{display:block;font:700 9px 'Inter',sans-serif;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:3px}
+  .pricing-tools strong{display:block;color:var(--paper);font-size:13px;font-weight:600}
+  .pricing-expand{border:1px solid rgba(211,171,99,.28);background:rgba(211,171,99,.08);color:var(--gold2);border-radius:999px;padding:7px 12px;font:600 10px 'Inter',sans-serif;letter-spacing:.05em;cursor:pointer;white-space:nowrap}
+  .pricing-expand:hover{background:rgba(211,171,99,.15)}
+  .price-project{border-bottom:1px solid var(--line2)}
+  .price-project:last-child{border-bottom:0}
+  .price-project-head{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px;text-align:left;border:0;background:transparent;color:inherit;padding:14px 16px;cursor:pointer}
+  .price-project-head:hover{background:rgba(211,171,99,.045)}
+  .price-project-title{min-width:0}
+  .price-project-title strong{display:block;color:#f3f5f7;font-size:13.5px;line-height:1.35;font-weight:700}
+  .price-project-title span{display:block;color:var(--muted);font-size:10.5px;line-height:1.4;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .price-project-meta{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+  .price-project-meta .from{color:var(--muted);font-size:10px;white-space:nowrap}
+  .price-project-meta .from b{color:var(--gold2);font-family:'Playfair Display',serif;font-size:15px;margin-left:3px}
+  .price-project-meta .count{font-size:9px;color:var(--jade);border:1px solid rgba(62,199,164,.25);background:rgba(62,199,164,.08);padding:4px 8px;border-radius:99px;white-space:nowrap}
+  .price-project-meta .chev{width:26px;height:26px;border:1px solid var(--line2);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font-size:17px;line-height:1;transition:transform .2s,background .2s}
+  .price-project.open .price-project-meta .chev{transform:rotate(45deg);background:rgba(211,171,99,.10)}
+  .price-project-body{display:none;padding:0 16px 15px}
+  .price-project.open .price-project-body{display:block}
+  .price-option-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .price-option{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 11px;border:1px solid var(--line2);border-radius:12px;background:rgba(255,255,255,.018)}
+  .price-option:hover{border-color:rgba(211,171,99,.28);background:rgba(211,171,99,.035)}
+  .price-option-type{min-width:0}
+  .price-option-type b{display:block;color:#eef2f6;font-size:11.5px;line-height:1.35}
+  .price-option-type span{display:block;color:var(--muted);font-size:10px;line-height:1.35;margin-top:2px}
+  .price-option-price{text-align:right;white-space:nowrap}
+  .price-option-price b{display:block;color:var(--gold2);font-family:'Playfair Display',serif;font-size:15px}
+  .price-option-price small{display:block;color:var(--muted);font-size:9px;margin-top:1px}
+  .price-option-details{grid-column:1/-1;display:flex;gap:7px;flex-wrap:wrap;padding-top:7px;border-top:1px solid var(--line2)}
+  .price-detail{font-size:9.5px;color:#cbd2da;padding:4px 7px;border-radius:7px;background:rgba(255,255,255,.025)}
+  .price-detail b{color:#e7c77f;font-weight:600}
+  .price-detail.booking b{color:var(--jade)}
+  .price-empty{padding:20px;color:var(--muted);font-size:12px}
+  @media(max-width:720px){
+    .pricing-tools{align-items:flex-start}
+    .pricing-tools strong{font-size:12px;max-width:220px}
+    .pricing-expand{padding:6px 9px}
+    .price-project-head{grid-template-columns:1fr;gap:8px;padding:13px 12px}
+    .price-project-meta{justify-content:flex-start}
+    .price-project-body{padding:0 12px 12px}
+    .price-option-grid{grid-template-columns:1fr}
+    .price-option{grid-template-columns:minmax(0,1fr) auto}
+  }
+
+  /* MAP WIDGET STYLES */
+  .dlbd-map-widget .project-item{display:flex;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line2);cursor:pointer;transition:background .15s;align-items:flex-start}
+  .dlbd-map-widget .project-item:hover{background:rgba(211,171,99,0.08);}
+  .dlbd-map-widget .project-item.active{background:rgba(211,171,99,0.14);border-left:3px solid var(--gold);}
+  .dlbd-map-widget .project-item.hidden{display:none;}
+  .dlbd-map-widget .pin-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--gold2);margin-top:2px;}
+  .dlbd-map-widget .project-item.active .pin-num{background:var(--gold);color:#0a0c0f;}
+  .dlbd-map-widget .p-name{font-family:'Noto Serif Bengali',serif;font-size:14.5px;color:var(--paper);line-height:1.4;margin-bottom:3px;}
+  .dlbd-map-widget .p-loc{font-size:12px;color:var(--muted);line-height:1.4;}
+  .dlbd-map-widget .p-code{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold);margin-top:3px;letter-spacing:0.5px;}
+  .leaflet-popup-content-wrapper{background:#0c1117;border:1px solid var(--gold);border-radius:6px;color:#f6f2ea;}
+  .leaflet-popup-content{font-family:'Noto Sans Bengali',sans-serif;margin:12px 14px;}
+  .leaflet-popup-content .pop-title{font-family:'Noto Serif Bengali',serif;font-size:14px;color:var(--gold2);margin-bottom:4px;}
+  .leaflet-popup-content .pop-loc{font-size:12px;color:#d4c7a8;}
+  .leaflet-popup-content .pop-code{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--gold);margin-top:5px;}
+  .leaflet-popup-tip{background:#0c1117;border:1px solid var(--gold);}
+  .leaflet-popup-close-button{color:var(--gold) !important;}
+  .pin-marker{width:30px;height:38px;position:relative;filter:drop-shadow(0 3px 5px rgba(0,0,0,0.5));}
+  .pin-marker svg{width:100%;height:100%;}
+  .pin-marker .pin-label{position:absolute;top:6px;left:0;right:0;text-align:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#0a0c0f;}
+  .pin-marker.pulse{animation:dlbdPinPulse 1s ease-in-out 2;}
+  @keyframes dlbdPinPulse{0%,100%{transform:scale(1) translateY(0);}50%{transform:scale(1.28) translateY(-6px);}}
+
+  /* ===== ROI ===== */
+  .roi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0 6px}
+  .roi-kpi{padding:18px 16px;border-radius:16px;border:1px solid var(--line2);background:rgba(6,8,11,.35);text-align:center}
+  .roi-kpi.hero{border-color:var(--gold);background:linear-gradient(160deg,rgba(211,171,99,.2),rgba(211,171,99,.04))}
+  .roi-kpi b{font-family:'Playfair Display',serif;font-size:27px;display:block;line-height:1.1;color:var(--gold2)}
+  .roi-kpi.hero b{font-size:34px}
+  .roi-kpi small{display:block;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:7px}
+  .chart{height:190px;display:flex;align-items:flex-end;gap:5px;padding:16px 6px 0;border-bottom:1px solid var(--line2);position:relative}
+  .chart .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;transition:.4s}
+  .chart .col i{display:block;width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--gold2),var(--gold3));min-height:4px;transition:height .6s cubic-bezier(.2,.7,.2,1)}
+  .chart .col i.profit{background:linear-gradient(180deg,#6ef0cc,#1e8f72)}
+  .chart-x{display:flex;gap:5px;padding:8px 6px 0}
+  .chart-x span{flex:1;text-align:center;font-size:9.5px;color:#78828d;letter-spacing:.06em}
+  .chart-note{display:flex;justify-content:space-between;gap:12px;font-size:10.5px;color:#b9c2cc;margin-top:14px;flex-wrap:wrap}
+  .chart-note span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .waterfall{margin-top:20px}
+  .wf{display:flex;align-items:center;gap:12px;margin-bottom:9px;font-size:12.5px;color:#cfd6de}
+  .wf .lbl{width:150px;flex:none}
+  .wf .track{flex:1;height:9px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+  .wf .track i{display:block;height:100%;border-radius:99px}
+  .wf .val{width:110px;text-align:right;flex:none;color:var(--gold2);font-weight:600}
+  .tag-new{font-size:9px;letter-spacing:.12em;padding:3px 8px;border-radius:99px;background:var(--jade);color:#04120e;font-weight:800;vertical-align:middle;margin-left:8px;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="bg-fx"></div><div class="bg-grid"></div><div class="noise"></div>
+<div class="prog" id="prog"></div>
+
+<!-- ================= TOP BAR ================= -->
+<div class="topbar">
+  <div class="wrap inner">
+    <span class="chip-rajuk"><span class="dot"></span><b>RAJUK REGISTERED DEVELOPER</b></span>
+    <div style="display:flex;align-items:center;gap:20px">
+      <div class="tb-links hide-sm">
+        <a href="#properties" data-nav>07 Active Projects</a>
+        <a href="#calculator" data-nav>EMI Calculator</a>
+        <a href="#faq" data-nav>FAQ</a>
+        <a href="tel:+8801700000000">☎ +880 1700-000000</a>
+      </div>
+      <div class="cur-toggle" id="curToggle" title="Switch currency">
+        <button data-cur="BDT" class="on">৳ BDT</button>
+        <button data-cur="USD">$ USD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#home" class="brand" data-nav>
+      <div class="brand-mark">D</div>
+      <div class="brand-txt"><strong>Dream Lands</strong><span>Real Estate</span></div>
+    </a>
+    <nav class="menu">
+      <a href="#home" data-nav>Home</a>
+      <a href="#about" data-nav>About</a>
+      <div class="drop">
+        <button class="dropbtn" data-nav="#properties">Projects ▾</button>
+        <div class="drop-panel">
+          <a href="#pushpo-belt-city" data-nav>Pushpo Belt City<small>Keraniganj · 300 Acres</small></a>
+          <a href="#pushpo-eco-city" data-nav>Pushpo Eco City<small>Keraniganj · Near Dhaka</small></a>
+          <a href="#dhaka-western-valley" data-nav>Dhaka Western Valley<small>Keraniganj · Phase 1 &amp; 2</small></a>
+          <a href="#puspo-homes-larisa" data-nav>Puspo Homes · Larisa<small>Narayanganj · Apartments</small></a>
+          <a href="#the-bay-icon-kolatoli" data-nav>The Bay Icon – Kolatoli<small>Cox's Bazar · 5-Star Hotel</small></a>
+          <a href="#the-bay-icon-sugandha" data-nav>The Bay Icon – Sugandha<small>Cox's Bazar · Beachfront</small></a>
+          <a href="#armin-resort" data-nav>Armin Resort<small>Cox's Bazar · Resort Land</small></a>
+          <a href="#the-imperium-eskaton" data-nav>The Imperium Eskaton<small>Eskaton, Dhaka · Commercial</small></a>
+        </div>
+      </div>
+      <a href="#why-us" data-nav>Why Us</a>
+      <a href="#calculator" data-nav>EMI Calculator</a>
+      <a href="#faq" data-nav>FAQ</a>
+      <a href="#team" data-nav>Team</a>
+      <a href="#contact" data-nav>Contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta" data-nav>Free Consultation →</a>
+    <div class="burger" id="burger"><i></i><i></i><i></i></div>
+  </div>
+  <div class="mobile" id="mobile">
+    <a href="#home" data-nav>Home</a>
+    <a href="#about" data-nav>About Us</a>
+    <a href="#properties" data-nav>All Projects</a>
+    <a href="#pushpo-belt-city" data-nav class="sub">— Pushpo Belt City</a>
+    <a href="#pushpo-eco-city" data-nav class="sub">— Pushpo Eco City</a>
+    <a href="#dhaka-western-valley" data-nav class="sub">— Dhaka Western Valley</a>
+    <a href="#puspo-homes-larisa" data-nav class="sub">— Puspo Homes · Larisa</a>
+    <a href="#the-bay-icon-kolatoli" data-nav class="sub">— The Bay Icon · Kolatoli</a>
+    <a href="#the-bay-icon-sugandha" data-nav class="sub">— The Bay Icon · Sugandha</a>
+    <a href="#armin-resort" data-nav class="sub">— Armin Resort</a>
+    <a href="#the-imperium-eskaton" data-nav class="sub">— The Imperium Eskaton</a>
+    <a href="#why-us" data-nav>Why Choose Us</a>
+    <a href="#calculator" data-nav>EMI / Payment Calculator</a>
+    <a href="#faq" data-nav>Frequently Asked Questions</a>
+    <a href="#team" data-nav>Our Team</a>
+    <a href="#contact" data-nav>Contact</a>
+  </div>
+</header>
+
+<main>
+<!-- ============================================================
+     PAGE : HOME
+============================================================ -->
+<div class="page" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow rv">Bangladesh · Since 2013</span>
+        <h1 class="rv">Building <em>Dreams.</em><br>Creating <span class="gold-txt">Landmarks.</span></h1>
+        <div class="hero-rule rv"></div>
+        <p class="lead rv">We lead the real estate industry with trust, transparency, and exceptional service. Whether you're buying, selling, or investing, our expert team ensures every step is guided by integrity.</p>
+        <div class="rv" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:32px">
+          <a href="#properties" class="btn btn-gold" data-nav>Explore Our Properties</a>
+          <a href="#contact" class="btn btn-ghost" data-nav>Book a Site Visit</a>
+        </div>
+        <div class="rv" style="display:flex;gap:26px;flex-wrap:wrap;margin-top:44px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#7f8a95">
+          <span>✔ Clean Titles</span><span>✔ On-Time Handover</span><span>✔ 100% Transparent</span>
+        </div>
+      </div>
+      <div class="hero-img rv">
+        <div class="frame"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/Dream-Lands.png" alt="Dream Lands — flagship real estate projects in Bangladesh"></div>
+        <div class="stamp"><span>RAJUK<br><b style="font-size:15px;letter-spacing:.1em">REGISTERED</b><br>◆ 12+ YEARS ◆</span></div>
+        <div class="float-badge glass"><b class="gold-txt">12+</b><small>Years of Trust</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACK RECORD -->
+  <section class="stat-band blk" style="padding:0">
+    <div class="wrap">
+      <div class="sec-head rv" style="padding:70px 0 40px">
+        <span class="eyebrow">Our track record</span>
+        <h2 style="font-size:clamp(30px,4.4vw,52px);margin:16px 0 12px">Trusted By Families.<br><span class="gold-txt">Backed By Results.</span></h2>
+        <p class="lead" style="margin:0">Every number tells the story of a home found, a dream fulfilled.</p>
+      </div>
+      <div class="stats rv" style="border-radius:24px;overflow:hidden;margin-bottom:70px">
+        <div class="stat"><div class="num gold-txt"><span class="count" data-to="1000">0</span>+</div><label>Happy Clients</label></div>
+        <div class="stat"><div class="num gold-txt"><span class="count" data-to="8">0</span></div><label>Properties Listed</label></div>
+        <div class="stat"><div class="num gold-txt"><span class="count" data-to="50">0</span>+</div><label>Agent Support</label></div>
+        <div class="stat rajuk"><div class="num gold-txt">RAJUK</div><label>Registered</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="blk" id="about-anchor">
+    <div class="wrap about-grid">
+      <div class="about-img rv">
+        <img src="https://dreamlandsbd.com/wp-content/uploads/2026/05/web-e1779863934304.jpeg" alt="About Dream Lands — planned communities across Bangladesh">
+        <div class="badge-12 glass"><b class="gold-txt" style="font-family:'Playfair Display',serif;font-size:28px;display:block;line-height:1">12+ Years</b><small style="color:var(--muted);font-size:11px">of Trust</small></div>
+      </div>
+      <div>
+        <span class="eyebrow rv">About Dream Lands</span>
+        <h2 class="rv" style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 18px">A Decade of Giving Bangladeshi Families a Place to Put Down Roots</h2>
+        <p class="lead rv"><strong style="color:#eef2f6;font-weight:600">Dream Lands</strong> was founded on a single conviction: every family deserves a property they can rely on. Over twelve years, we've built that trust by finding the right land, handling every legal detail, laying solid infrastructure, and handing you something that genuinely holds its value.</p>
+        <p class="lead rv">No shortcuts. No fine-print surprises. Just planned communities, premium towers, and resort destinations built to stand the test of time across Dhaka, Cox's Bazar, and beyond.</p>
+        <div class="feat-grid rv">
+          <div class="feat"><div class="ico">✦</div><h4>Rajuk Registered</h4><p>All projects fully compliant with Bangladesh's urban authority standards.</p></div>
+          <div class="feat"><div class="ico">◎</div><h4>100% Transparent</h4><p>Clear pricing, clean titles, and no hidden charges ever.</p></div>
+          <div class="feat"><div class="ico">⛨</div><h4>Legal Protection</h4><p>The in-house legal team ensures every transaction is airtight.</p></div>
+          <div class="feat"><div class="ico">⟡</div><h4>After-Sale Support</h4><p>Our relationship doesn't end at handover; we're here for the long term.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPERTIES -->
+  <section class="blk" id="properties-anchor" style="background:linear-gradient(180deg,transparent,rgba(211,171,99,.05),transparent)">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Our Properties</span>
+        <h2 style="font-size:clamp(30px,4.4vw,52px);margin:16px 0 12px">Exceptional Real Estate <span class="gold-txt">Projects</span></h2>
+        <p class="lead" style="margin:0">Exceptional real estate projects, where quality, comfort, and investment potential come together.</p>
+      </div>
+      <div class="filters rv" id="filters">
+        <button class="on" data-f="all">All Projects</button>
+        <button data-f="residential">Residential</button>
+        <button data-f="hotel">Hotel / Resort</button>
+        <button data-f="commercial">Commercial</button>
+        <button data-f="beachfront">Beachfront</button>
+      </div>
+      <div class="prop-grid" id="propGrid">
+        <article class="card prop rv" data-cat="residential">
+          <div class="thumb">
+            <img src="https://dreamlandsbd.com/wp-content/uploads/elementor/thumbs/Pushpo-Eco-City-e1780301887110-rob36gsmlkcf4e2js76igsxo1xbz4arp3c38q7zj70.jpeg" alt="Pushpo Eco City project">
+            <div class="tags"><span class="tag hot">High ROI</span><span class="tag">Near Dhaka</span><span class="tag">Residential</span></div>
+          </div>
+          <div class="body">
+            <h3><a href="#pushpo-eco-city" data-nav>Pushpo Eco City</a></h3>
+            <p>Eco-Friendly Residential Living Near Dhaka. Pushpo Eco City is a well-planned residential community beside the Dhaka–Mawa Expressway.</p>
+            <a href="#pushpo-eco-city" class="more" data-nav>View Project →</a>
+          </div>
+        </article>
+
+        <article class="card prop rv" data-cat="hotel">
+          <div class="thumb">
+            <img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/s.jpeg" alt="The Bay Icon Kolatoli Cox's Bazar">
+            <div class="tags"><span class="tag hot">High ROI</span><span class="tag">Cox's Bazar</span><span class="tag">Hotel/Resort</span></div>
+          </div>
+          <div class="body">
+            <h3><a href="#the-bay-icon-kolatoli" data-nav>The Bay Icon — Kolatoli</a></h3>
+            <p>The project is located in the Kolatoli Marine Drive area of Cox's Bazar, which is a very popular and promising location for tourists.</p>
+            <a href="#the-bay-icon-kolatoli" class="more" data-nav>View Project →</a>
+          </div>
+        </article>
+
+        <article class="card prop rv" data-cat="commercial">
+          <div class="thumb">
+            <img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-Imperium-Eskaton-1.png" alt="The Imperium Eskaton Dhaka">
+            <div class="tags"><span class="tag hot">High ROI</span><span class="tag">Eskaton, Dhaka</span><span class="tag">Commercial</span></div>
+          </div>
+          <div class="body">
+            <h3><a href="#the-imperium-eskaton" data-nav>The Imperium Eskaton</a></h3>
+            <p>Eskaton, the heart of Dhaka, where personal time is lost in the hustle and bustle of daily life.</p>
+            <a href="#the-imperium-eskaton" class="more" data-nav>View Project →</a>
+          </div>
+        </article>
+
+        <article class="card prop rv" data-cat="beachfront hotel">
+          <div class="thumb">
+            <img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-bay-Icon-sugandha-1.png" alt="The Bay Icon Sugandha Cox's Bazar">
+            <div class="tags"><span class="tag hot">High ROI</span><span class="tag">Sugandha, Cox's Bazar</span><span class="tag">Beachfront</span></div>
+          </div>
+          <div class="body">
+            <h3><a href="#the-bay-icon-sugandha" data-nav>The Bay Icon — Sugandha</a></h3>
+            <p>A premium beachfront address on Sugandha, Cox's Bazar — designed for investors seeking lifetime hospitality returns.</p>
+            <a href="#the-bay-icon-sugandha" class="more" data-nav>View Project →</a>
+          </div>
+        </article>
+
+        <article class="card prop rv" data-cat="residential">
+          <div class="thumb">
+            <img src="https://dreamlandsbd.com/wp-content/uploads/elementor/thumbs/Pushpo-Eco-City-e1780301887110-rob36gsmlkcf4e2js76igsxo1xbz4arp3c38q7zj70.jpeg" alt="Pushpo Belt City Keraniganj">
+            <div class="tags"><span class="tag hot">96 Kisti</span><span class="tag">Keraniganj</span><span class="tag">Residential</span></div>
+          </div>
+          <div class="body">
+            <h3><a href="#pushpo-belt-city" data-nav>Pushpo Belt City</a><span class="tag-new">New</span></h3>
+            <p>300 acres on the Dhaka–Mawa Expressway — 21 KM from Dhaka Zero Point, 13 KM from Mawa. Three blocks, 36 to 96 monthly instalments with up to 9 years grace.</p>
+            <a href="#pushpo-belt-city" class="more" data-nav>View Project →</a>
+          </div>
+        </article>
+
+        <article class="card prop rv" data-cat="residential commercial">
+          <div class="thumb">
+            <img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/Dream-Lands.png" alt="Dhaka Western Valley Keraniganj">
+            <div class="tags"><span class="tag hot">Golden &amp; Diamond</span><span class="tag">Keraniganj</span><span class="tag">Plots</span></div>
+          </div>
+          <div class="body">
+            <h3><a href="#dhaka-western-valley" data-nav>Dhaka Western Valley</a><span class="tag-new">New</span></h3>
+            <p>Two phases across Keraniganj. Golden &amp; Diamond special plots — residential and commercial in 3, 5, 10 katha and 1 acre, from ৳18 lakh per katha.</p>
+            <a href="#dhaka-western-valley" class="more" data-nav>View Project →</a>
+          </div>
+        </article>
+
+        <article class="card prop rv" data-cat="residential apartment">
+          <div class="thumb">
+            <img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-Imperium-Eskaton-1.png" alt="Puspo Homes Larisa Condominium Narayanganj">
+            <div class="tags"><span class="tag hot">Handover 2028</span><span class="tag">Narayanganj</span><span class="tag">Apartments</span></div>
+          </div>
+          <div class="body">
+            <h3><a href="#puspo-homes-larisa" data-nav>Puspo Homes · Larisa</a><span class="tag-new">New</span></h3>
+            <p>Larisa Condominium at Bhuigol, Narayanganj — beside Rupayan Town. 3 &amp; 4 bedroom flats with AI security, rooftop pool and full modern amenities.</p>
+            <a href="#puspo-homes-larisa" class="more" data-nav>View Project →</a>
+          </div>
+        </article>
+
+        <article class="card prop rv" data-cat="hotel beachfront resort">
+          <div class="thumb">
+            <img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-bay-Icon-sugandha-1.png" alt="Armin Resort Cox's Bazar">
+            <div class="tags"><span class="tag hot">Beachfront</span><span class="tag">Cox's Bazar</span><span class="tag">Resort</span></div>
+          </div>
+          <div class="body">
+            <h3><a href="#armin-resort" data-nav>Armin Resort</a><span class="tag-new">New</span></h3>
+            <p>Plots and resort land at Diaryanagar, Cox's Bazar — beside the Marine Drive corridor with Jal Taranga and cultural centre neighbourhood.</p>
+            <a href="#armin-resort" class="more" data-nav>View Project →</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- COMPACT PROJECT PRICING DIRECTORY -->
+      <div class="rv" style="margin-top:26px">
+        <div class="pricing-directory" id="priceTable">
+          <div class="pricing-tools">
+            <div>
+              <span class="pricing-tools-kicker">PROJECT-WISE PRICING</span>
+              <strong>Tap a project to view price &amp; payment details</strong>
+            </div>
+            <button type="button" class="pricing-expand" id="expandAllPricing">Expand all</button>
+          </div>
+          <div id="priceAccordion" class="price-accordion"></div>
+        </div>
+      </div>
+      <div class="price-strip rv" id="priceStrip">
+        <div class="price-card" data-proj="pushpo-eco-city"><small>Pushpo Eco City</small><b data-price-key="pushpo-eco-city"></b><span class="unit">per katha</span><em>◆ Block 03 Residential</em></div>
+        <div class="price-card" data-proj="dhaka-western-valley"><small>Dhaka Western Valley</small><b data-price-key="dhaka-western-valley"></b><span class="unit">per katha</span><em>◆ Phase 2 Residential</em></div>
+        <div class="price-card" data-proj="the-bay-icon-kolatoli"><small>The Bay Icon · Kolatoli</small><b data-price-key="the-bay-icon-kolatoli"></b><span class="unit">per sq ft</span><em>◆ 5-Star Hotel Share</em></div>
+        <div class="price-card" data-proj="armin-resort"><small>Armin Resort</small><b data-price-key="armin-resort"></b><span class="unit">per katha</span><em>◆ Cox's Bazar Resort</em></div>
+      </div>
+      <p class="note rv" style="margin-top:18px">Project-level prices are controlled from the <b style="color:var(--gold2)">PROJECT_PRICING</b> section in the JavaScript. Change only the <b style="color:var(--gold2)">price</b> number there. <span id="rateNote">1 USD ≈ ৳122 BDT</span> · কর্তৃপক্ষ যে কোন সময় মূল্য পরিবর্তনের অধিকার বজায় রাখে।</p>
+    </div>
+  </section>
+
+  <!-- EMI / PAYMENT CALCULATOR -->
+  <section class="blk" id="calculator-anchor" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Pricing · EMI · ROI Calculator</span>
+        <h2 style="font-size:clamp(28px,4.2vw,48px);margin:16px 0 12px">Pricing, <span class="gold-txt">EMI</span> &amp; <span class="gold-txt">ROI</span> Calculator</h2>
+        <p class="lead" style="margin:0">Every Dream Lands project, every official price tier, every instalment plan — plus a full return-on-investment projection. All in BDT or USD.</p>
+      </div>
+      <div class="tabs rv" data-calc-tabs>
+        <button class="on" data-t="emi">① Pricing &amp; EMI</button>
+        <button data-t="roi">② ROI Projection</button>
+      </div>
+      <div class="calc rv" data-calc></div>
+      <div class="calc rv" data-roi style="display:none"></div>
+      <p class="note rv" style="margin-top:16px">◆ Official price list based calculation. ROI projections are indicative models, not a guarantee of return. কর্তৃপক্ষ যে কোন সময় মূল্য পরিবর্তনের অধিকার বজায় রাখে।</p>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE MAP WIDGET -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <section class="blk" style="padding:0">
+    <div class="dlbd-map-widget" style="background:transparent;padding:0">
+      <div class="frame" style="max-width:1240px;margin:0 auto">
+        <header style="display:flex;align-items:center;justify-content:space-between;padding:18px 30px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--navy-panel),var(--navy));flex-wrap:wrap;gap:12px">
+          <div class="brandmark" style="display:flex;align-items:center;gap:16px">
+            <div style="width:44px;height:44px;border-radius:12px;background:var(--grad-gold);display:grid;place-items:center;color:#0a0c0f;font-family:'Playfair Display',serif;font-size:20px;font-weight:700">D</div>
+            <div>
+              <h3 style="font-family:'Noto Serif Bengali',serif;font-weight:700;font-size:20px;color:var(--paper);margin:0">প্রজেক্ট লোকেশন ম্যাপ</h3>
+              <div class="subtitle" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.8px;color:var(--gold);text-transform:uppercase;margin-top:2px">Interactive Site Finder · Dream Lands BD</div>
+            </div>
+          </div>
+          <div class="header-right" style="display:flex;align-items:center;gap:22px">
+            <div class="rajuk-badge" style="display:flex;flex-direction:column;align-items:center;border:1px solid var(--gold);border-radius:3px;padding:5px 12px;font-family:'Space Mono',monospace">
+              <div class="r-top" style="font-size:11px;color:var(--gold2);font-weight:700;letter-spacing:1px">RAJUK</div>
+              <div class="r-bot" style="font-size:8px;color:var(--muted);letter-spacing:1px">REGISTERED</div>
+            </div>
+            <div class="stat" style="font-family:'Space Mono',monospace;font-size:11px;color:var(--gold2);text-align:right"><b>07</b>Active Projects</div>
+          </div>
+        </header>
+
+        <div class="body-grid" style="display:grid;grid-template-columns:340px 1fr;min-height:580px">
+          <aside class="sidebar" style="background:#0c1117;border-right:1px solid var(--line2);display:flex;flex-direction:column">
+            <div class="search-wrap" style="padding:20px;border-bottom:1px solid var(--line2)">
+              <label style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px">প্রজেক্ট খুঁজুন</label>
+              <div class="search-box" style="position:relative">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--gold)"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="dlbd-searchInput" placeholder="প্রজেক্টের নাম লিখুন..." autocomplete="off" style="width:100%;padding:11px 14px 11px 36px;background:#06080b;border:1px solid var(--line2);border-radius:6px;color:#f6f2ea;font-family:'Noto Sans Bengali',sans-serif;font-size:13.5px;outline:none">
+              </div>
+            </div>
+            <div class="no-result" id="dlbd-noResult" style="display:none;padding:16px 20px;font-size:12.5px;color:var(--muted)">কোনো প্রজেক্ট পাওয়া যায়নি।</div>
+            <ul class="project-list" id="dlbd-projectList" style="list-style:none;overflow-y:auto;flex:1;max-height:460px;margin:0;padding:0"></ul>
+          </aside>
+
+          <div class="map-pane" style="position:relative">
+            <div id="dlbd-map" style="width:100%;height:100%;min-height:580px;background:#06080b"></div>
+            <div class="map-legend" style="position:absolute;bottom:16px;left:16px;z-index:500;background:rgba(6,8,11,0.92);border:1px solid var(--gold);border-radius:4px;padding:8px 12px;font-family:'Space Mono',monospace;font-size:10px;color:var(--gold2)">◆ ব্র্যাসপিন = প্রজেক্ট এক্সাক্ট লোকেশন (Plus Code ভিত্তিক)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONGOING BAND -->
+  <section class="band">
+    <div class="wrap band-inner">
+      <div style="display:flex;align-items:center;gap:26px;flex-wrap:wrap">
+        <div class="seal"><div><b class="gold-txt">RAJUK</b><small>REGISTERED</small></div></div>
+        <div>
+          <span class="eyebrow">Building Dreams · Creating Landmarks</span>
+          <h2 style="font-size:clamp(24px,3vw,36px);margin:12px 0 0">Trust, engineered into <span class="gold-txt">every project</span></h2>
+        </div>
+      </div>
+      <div class="active-projects">
+        <b class="gold-txt"><span class="count" data-to="7">0</span></b>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px">Active</div>
+          <div style="font-size:11px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase">Projects</div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap ticker"><p class="bn">◆ প্রজেক্টের নামের ওপর ক্লিক করে দেখে নিন লাইভ লোকেশন</p></div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="blk" id="why-us-anchor">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Why Choose Dream Lands</span>
+        <h2 style="font-size:clamp(30px,4.4vw,52px);margin:16px 0 14px">Six Reasons Clients <span class="gold-txt">Choose Us and Stay.</span></h2>
+        <p class="lead" style="margin:0">In a market where promises are easy, we let our track record speak. Over 1,200 families have settled on Dream Lands properties, every one of them with a clean title, on-time handover, and a price that held.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why rv"><div class="idx">01</div><div class="bar"></div><h3>Safe Investment</h3><p>Every project is financially structured for stability. Your capital is protected by our track record and RAJUK registration, giving you peace of mind from day one.</p></div>
+        <div class="why rv"><div class="idx">02</div><div class="bar"></div><h3>Prime Locations</h3><p>We don't compromise on location. From Dhaka's business corridors to Cox's Bazar's Marine Drive, our sites are chosen for long-term appreciation.</p></div>
+        <div class="why rv"><div class="idx">03</div><div class="bar"></div><h3>Legal Security</h3><p>Clear land titles, fully documented transfers, and in-house legal support. We handle every regulation so you don't have to.</p></div>
+        <div class="why rv"><div class="idx">04</div><div class="bar"></div><h3>Maximum Growth</h3><p>Our properties consistently outperform market averages. Whether residential, commercial, or hospitality, your investment grows with Bangladesh's booming economy.</p></div>
+        <div class="why rv"><div class="idx">05</div><div class="bar"></div><h3>Sustainable Design</h3><p>Modern eco-conscious construction practices, green landscaping, and energy-efficient infrastructure for communities that endure.</p></div>
+        <div class="why rv"><div class="idx">06</div><div class="bar"></div><h3>Dedicated Support</h3><p>From the first inquiry to years after handover, our team is always a call away. We build relationships, not just buildings.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="blk quote-band">
+    <div class="wrap">
+      <div class="sec-head rv" style="text-align:center;margin:0 auto 48px">
+        <span class="eyebrow" style="justify-content:center">What Our Clients Say</span>
+        <h2 style="font-size:clamp(28px,4.2vw,48px);margin:16px 0 14px">Families Who Found Their <span class="gold-txt">Forever Home</span></h2>
+        <p class="lead" style="margin:0">Real experiences from real people who trusted Dream Lands with one of life's most important decisions.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom:44px">
+      <h3 class="bn rv" style="text-align:center;font-size:20px;color:var(--gold2);margin:0 0 4px">Happy Moments</h3>
+      <div class="marquee">
+        <div class="marquee-track" id="mmTrack">
+          <figure class="mm-card bn"><span class="verified">Verified Client</span>
+            <div class="row">
+              <img src="https://dreamlandsbd.com/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-15-at-4.43.36-PM-e1784200385796-300x259.jpeg" alt="রাকিব হোসেন — Dream Lands গ্রাহক">
+              <div><p>বিশ্বস্ততা আর দায়বদ্ধতা — এই দুটো জিনিস Dream Lands এ পুরোপুরি পেয়েছি। প্রপার্টি ইনভেস্টমেন্টের মতো বড় সিদ্ধান্তে ওদের এক্সপার্ট গাইডেন্স আমার জন্য অনেক সহজ করে দিয়েছে পুরো ব্যাপারটা।</p>
+              <cite>রাকিব হোসেন <span>· গ্রাহক</span></cite></div>
+            </div>
+          </figure>
+          <figure class="mm-card bn"><span class="verified">Verified Client</span>
+            <div class="row">
+              <img src="https://dreamlandsbd.com/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-15-at-4.43.35-PM-e1784200326745-300x240.jpeg" alt="জামিল সাহেব — Dream Lands গ্রাহক">
+              <div><p>প্রথমে একটু দ্বিধায় ছিলাম, কারণ প্রপার্টি কেনা তো ছোটখাটো সিদ্ধান্ত না। কিন্তু Dream Lands এর টিমের সাথে কথা বলার পর সেই দ্বিধাটা কেটে যায়। ওরা প্রতিটা ধাপ খুব ধৈর্য নিয়ে বুঝিয়েছে, কোনো কিছু লুকায়নি।</p>
+              <cite>জামিল সাহেব <span>· গ্রাহক</span></cite></div>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap t-grid">
+      <article class="t-card rv"><span class="qm">“</span>
+        <blockquote>Dream Lands made what seemed like a complex process feel simple. From site visit to legal handover, every step was explained clearly. We're now settled in Pushpo Eco City and couldn't be happier.</blockquote>
+        <div class="who"><img src="https://dreamlandsbd.com/wp-content/uploads/elementor/thumbs/clients-W-rmo3b62crodplctca6mgppplvmgxw0s811f6b973zc.jpg" alt="Zara Tabassum"><div><cite>Zara Tabassum</cite><span>Landowner, Pushpo Eco City</span></div></div>
+      </article>
+      <article class="t-card rv"><span class="qm">“</span>
+        <blockquote>I was skeptical about investing in Cox's Bazar, but the Dream Lands team gave me complete confidence. The Bay Icon project is already appreciating well — the best investment decision I've made.</blockquote>
+        <div class="who"><img src="https://dreamlandsbd.com/wp-content/uploads/elementor/thumbs/Client-rmo3aji87nitupq3xwvf1vejmdk4raanxxrism4k4o.jpg" alt="Kamal Ahmed"><div><cite>Kamal Ahmed</cite><span>Investor, The Bay Icon</span></div></div>
+      </article>
+      <article class="t-card rv"><span class="qm">“</span>
+        <blockquote>The legal team at Dream Lands was thorough and transparent. All documents were verified, explained, and handed over cleanly. I've recommended them to four of my colleagues already.</blockquote>
+        <div class="who"><img src="https://dreamlandsbd.com/wp-content/uploads/elementor/thumbs/Client-3-e1781299031387-rov6dxk7r9zhd7g9ulxyg0ms0ctqeiw3f0p4dl6tpk.jpg" alt="Fahim Islam"><div><cite>Fahim Islam</cite><span>Business Owner, Dhaka</span></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="blk" id="team-anchor">
+    <div class="wrap">
+      <div class="sec-head rv" style="text-align:center;margin:0 auto 48px">
+        <span class="eyebrow" style="justify-content:center">The People</span>
+        <h2 style="font-size:clamp(30px,4.4vw,52px);margin:16px 0 0">Our Team</h2>
+      </div>
+      <div class="team-grid">
+        <article class="member rv">
+          <div class="ph"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/07/Ali-Hiyder-Chaireman-e1785562873241.png" alt="Ali Ahmed — Chairman, Dream Lands"></div>
+          <div class="meta"><h3>Ali Ahmed</h3><span>Chairman</span></div>
+        </article>
+        <article class="member rv">
+          <div class="ph"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/04/1000087987-e1781380877489.png" alt="Samir Hossen — Managing Director, Dream Lands"></div>
+          <div class="meta"><h3>Samir Hossen</h3><span>Managing Director</span></div>
+        </article>
+        <article class="member rv">
+          <div class="ph"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/05/Oni_Photo-e1779805770901.png" alt="Raihan Helaly — General Manager, Dream Lands"></div>
+          <div class="meta"><h3>Raihan Helaly</h3><span>General Manager</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="blk" id="faq-anchor" style="background:linear-gradient(180deg,transparent,rgba(62,199,164,.045),transparent)">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2 style="font-size:clamp(28px,4.2vw,48px);margin:16px 0 12px">Everything You Wanted to Ask, <span class="gold-txt">Answered Honestly</span></h2>
+        <p class="lead" style="margin:0">Straight answers on documents, payments, ownership and returns — no fine print, no evasions.</p>
+      </div>
+      <div class="faq-wrap rv">
+        <div>
+          <div class="faq-cat">◆ General</div>
+          <div class="faq"><button class="faq-q">Is Dream Lands a RAJUK registered developer? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Yes. Dream Lands is a RAJUK registered real estate developer and every one of our projects is fully compliant with Bangladesh's urban authority standards. Registration certificates and approval papers are available for inspection at our head office before you pay anything.</div></div></div>
+          <div class="faq"><button class="faq-q">How many years has Dream Lands been operating? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Over twelve years. In that time more than 1,200 families have settled on Dream Lands properties — each with a clean title, on-time handover and a price that held its value.</div></div></div>
+          <div class="faq"><button class="faq-q">Where are your current projects located? <span class="pm">+</span></button>
+            <div class="faq-a"><div>We have 7 active projects across three zones: the Dhaka–Mawa Expressway corridor (Pushpo Eco City), central Dhaka (The Imperium Eskaton) and the Cox's Bazar beachfront (The Bay Icon — Kolatoli and Sugandha).</div></div></div>
+          <div class="faq"><button class="faq-q">Can I visit a project site before deciding? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Absolutely — and we recommend it. Site visits are free and our team accompanies you, walks you through the plot or unit boundaries, the road network, nearby landmarks and every relevant document. Call our hotline to fix a time.</div></div></div>
+
+          <div class="faq-cat">◆ Buying, Documents &amp; Legal</div>
+          <div class="faq"><button class="faq-q">Will I get a clear, mutation-completed land title? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Yes. Clear land titles and fully documented transfers are non-negotiable for us. Our in-house legal team verifies the chain of ownership, completes the mutation and hands over all original documents. Nothing is left ambiguous.</div></div></div>
+          <div class="faq"><button class="faq-q">Are there any hidden charges after booking? <span class="pm">+</span></button>
+            <div class="faq-a"><div>No. We are 100% transparent — clear pricing, clean titles and no hidden charges, ever. Every cost head (land value, registration, stamp duty, utility connection) is listed in your agreement before you sign.</div></div></div>
+          <div class="faq"><button class="faq-q">Can non-resident Bangladeshis (NRB) or foreigners buy? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Yes. NRBs can purchase in their own name or a nominee's name, and we assist with the entire remote process — digital documentation, video site tours, power of attorney and secure banking channels. Investors from Malaysia and Singapore have already secured shares in The Bay Icon.</div></div></div>
+          <div class="faq"><button class="faq-q">Can I sell or transfer my property later? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Of course. Plots are freely transferable once registration is complete. In The Bay Icon, shares are transferable at any time — making the investment genuinely liquid and flexible for changing circumstances.</div></div></div>
+
+          <div class="faq-cat">◆ Payment &amp; EMI</div>
+          <div class="faq"><button class="faq-q">How much booking money do I need to pay? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Standard booking money is 20% of the total value. For one-time purchase, 60% is paid upfront and the remaining 40% is payable within 3 months. Instalment schedules are also available — use the <a href="#calculator" data-nav style="color:var(--gold)">EMI Calculator</a> above to model your own plan.</div></div></div>
+          <div class="faq"><button class="faq-q">Can I customise the booking and instalment ratio? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Yes. Booking can be adjusted between 10% and 40%, and down payment between 20% and 90% of the balance. Higher down payments reduce your monthly instalment substantially. Our sales desk will structure a plan around your cash flow.</div></div></div>
+          <div class="faq"><button class="faq-q">Do you accept payment in US Dollars? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Yes. Use the <b>USD / BDT</b> toggle in the top bar to view all prices in your preferred currency. Cross-border payments are accepted through official banking channels with full documentation for repatriation purposes.</div></div></div>
+          <div class="faq"><button class="faq-q">Is bank financing or loan support available? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Selected projects are eligible for bank finance. Our team coordinates with partner banks, prepares your file and follows up until disbursement — at no extra cost to you.</div></div></div>
+
+          <div class="faq-cat">◆ Investment &amp; Returns</div>
+          <div class="faq"><button class="faq-q">What return can I expect from Pushpo Eco City? <span class="pm">+</span></button>
+            <div class="faq-a"><div>The Dhaka–Mawa corridor is one of the most promising growth zones near Dhaka — government housing projects, the Louhajong industrial zone, proposed townships near Keraniganj, the Jagannath University campus and Padma Bridge connectivity are all driving value. Investors typically target multi-fold appreciation over a 5-year horizon.</div></div></div>
+          <div class="faq"><button class="faq-q">How does the halal monthly income at The Bay Icon work? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Shareholders receive a share of the hotel's actual operating profit every month through a fully ethical, interest-free profit-sharing framework. There is no fixed interest component, no duration cap and no hidden conditions — with transparent accounting and reporting available to investors.</div></div></div>
+          <div class="faq"><button class="faq-q">What is the 5× asset appreciation projection based on? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Cox's Bazar's prime hospitality corridor — 205 decimals of government-allotted, west-facing beachfront land at the starting point of the Marine Drive — is among the scarcest asset classes in Bangladesh. Projections are modelled on corridor comparables and tourism growth; past performance does not guarantee future results.</div></div></div>
+          <div class="faq"><button class="faq-q">What happens after handover — do you disappear? <span class="pm">+</span></button>
+            <div class="faq-a"><div>Never. Our relationship doesn't end at handover. We provide after-sale support including documentation, utility transfer, resale assistance and community management. We build relationships, not just buildings.</div></div></div>
+        </div>
+
+        <div class="glass rv" style="padding:30px;position:sticky;top:120px">
+          <h3 style="font-size:22px;margin:0 0 10px">Still have a question?</h3>
+          <p class="lead" style="font-size:14px;margin:0 0 22px">Our consultants answer within one business day — in Bangla or English.</p>
+          <a href="#contact" class="btn btn-gold" data-nav style="width:100%;justify-content:center;margin-bottom:12px">Ask Our Team</a>
+          <a href="tel:+8801700000000" class="btn btn-ghost" style="width:100%;justify-content:center">☎ +880 1700-000000</a>
+          <div style="margin-top:26px;padding-top:22px;border-top:1px dashed var(--line2)">
+            <small style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)">Popular pages</small>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;font-size:13.5px">
+              <a href="#pushpo-eco-city" data-nav style="color:var(--gold2)">→ Pushpo Eco City</a>
+              <a href="#the-bay-icon-kolatoli" data-nav style="color:var(--gold2)">→ The Bay Icon · Kolatoli</a>
+              <a href="#calculator" data-nav style="color:var(--gold2)">→ EMI Calculator</a>
+              <a href="#why-us" data-nav style="color:var(--gold2)">→ Why Choose Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="blk" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta rv">
+        <span class="eyebrow" style="justify-content:center">Let's Talk</span>
+        <h2>Your Next Property Is <span class="gold-txt">One Conversation Away.</span></h2>
+        <p class="lead" style="max-width:640px;margin:0 auto 32px">Book a free consultation or site visit with Dream Lands and explore the best real estate opportunities across Bangladesh.</p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+          <a href="#contact" class="btn btn-gold" data-nav>Connect With Us</a>
+          <a href="tel:+8801700000000" class="btn btn-ghost">☎ Call Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : PUSHPO ECO CITY
+============================================================ -->
+<div class="page" id="page-pushpo-eco-city">
+  <section class="p-hero">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/elementor/thumbs/Pushpo-Eco-City-e1780301887110-rob36gsmlkcf4e2js76igsxo1xbz4arp3c38q7zj70.jpeg" alt="Pushpo Eco City"></div>
+    <div class="wrap in">
+      <div class="crumbs"><a href="#home" data-nav>Home</a> · <a href="#properties" data-nav>Projects</a> · <span style="color:var(--gold2)">Pushpo Eco City</span></div>
+      <span class="pill">◆ Near Dhaka · Residential · High ROI</span>
+      <h1 style="font-size:clamp(34px,5.4vw,68px);max-width:900px">Pushpo Eco City: Eco-Friendly Residential Living <span class="gold-txt">Near Dhaka</span></h1>
+      <p class="lead" style="max-width:760px;margin-top:22px">Pushpo Eco City is a well-planned residential community with open spaces, future-ready infrastructure, and excellent connectivity, just 22 KM from Dhaka Zero Point and 13 KM from Padma Bridge.</p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="wrap">
+      <div class="anchor-nav rv">
+        <a href="#pec-welcome">About the Project</a><a href="#pec-features">Features</a><a href="#pec-location">Location</a><a href="#pec-plots">Plot Sizes</a><a href="#pec-price">Pricing</a><a href="#pec-growth">Growth</a><a href="#pec-lifestyle">Lifestyle</a>
+      </div>
+      <div class="tiles rv" style="margin-bottom:70px">
+        <div class="tile"><b class="gold-txt">22</b><small>KM from Dhaka Zero Point</small></div>
+        <div class="tile"><b class="gold-txt">13</b><small>KM from Padma Bridge</small></div>
+        <div class="tile"><b class="gold-txt">30–130</b><small>Feet Wide Roads</small></div>
+        <div class="tile"><b class="gold-txt">400</b><small>Feet Expressway Beside</small></div>
+      </div>
+
+      <div id="pec-welcome" class="two-col" style="align-items:center;margin-bottom:80px">
+        <div>
+          <span class="eyebrow rv">About the project</span>
+          <h2 class="rv" style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 16px">Welcome to Pushpo Eco City</h2>
+          <h3 class="rv" style="font-family:'Inter',sans-serif;font-weight:500;font-size:18px;color:var(--gold2);margin:0 0 18px">A Modern Eco-Friendly Residential Project</h3>
+          <p class="lead rv">Designed for families, homeowners, and investors who want peaceful living close to Dhaka. Pushpo Eco City offers a perfect combination of natural surroundings, organized infrastructure, and future development opportunities, located beside the 400-Feet Dhaka-Mawa Expressway for excellent connectivity while maintaining a calm, healthy environment away from urban congestion.</p>
+        </div>
+        <div class="about-img rv"><img src="https://dreamlandsbd.com/wp-content/uploads/elementor/thumbs/Pushpo-Eco-City-e1780301887110-rob36gsmlkcf4e2js76igsxo1xbz4arp3c38q7zj70.jpeg" alt="Pushpo Eco City aerial view"></div>
+      </div>
+
+      <div id="pec-features" style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Project highlights</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 0">A Perfect Blend of Nature and <span class="gold-txt">Modern Living</span></h2></div>
+        <div class="feat-grid" style="grid-template-columns:repeat(auto-fit,minmax(290px,1fr))">
+          <div class="feat rv"><h4>🌱 Eco-friendly</h4><p>Fresh air, green surroundings, landscaped gardens, and a peaceful atmosphere.</p></div>
+          <div class="feat rv"><h4>📍 Prime location</h4><p>Beside the Dhaka-Mawa Expressway with quick access to Dhaka and Padma Bridge.</p></div>
+          <div class="feat rv"><h4>🛣 Wide road network</h4><p>Well-planned roads from 30 ft to 130 ft for comfortable transportation.</p></div>
+          <div class="feat rv"><h4>📐 Multiple plot options</h4><p>Residential, commercial, and VIP plots to suit every requirement.</p></div>
+          <div class="feat rv"><h4>📈 Strong investment</h4><p>Rapid development around the Padma Bridge corridor drives future value.</p></div>
+          <div class="feat rv"><h4>🛡 Secure &amp; transparent</h4><p>Professional consultation, clear documentation, secure transactions.</p></div>
+        </div>
+      </div>
+
+      <div id="pec-location" style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Project location advantage</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px">Excellent <span class="gold-txt">Connectivity</span></h2>
+          <p class="lead" style="margin:0">Right beside the 400 Feet Dhaka-Mawa Expressway, fast access to Dhaka and the Padma Bridge without the city noise.</p></div>
+        <div class="two-col">
+          <div class="card rv" style="padding:28px">
+            <h4 style="color:var(--gold2);letter-spacing:.16em;font-size:11px;font-family:'Inter',sans-serif;text-transform:uppercase">Distance highlights</h4>
+            <table class="spec-table"><tr><td>Dhaka Zero Point</td><td><b>22 KM</b></td></tr><tr><td>Padma Bridge</td><td><b>13 KM</b></td></tr><tr><td>Dhaka-Mawa Expressway</td><td><b>Beside</b></td></tr></table>
+          </div>
+          <div class="card rv" style="padding:28px">
+            <h4 style="color:var(--gold2);letter-spacing:.16em;font-size:11px;font-family:'Inter',sans-serif;text-transform:uppercase">Approximate travel time</h4>
+            <table class="spec-table"><tr><td>Postogola</td><td><b>~10 min</b></td></tr><tr><td>Babubazar</td><td><b>~15 min</b></td></tr><tr><td>Motijheel</td><td><b>~25 min</b></td></tr><tr><td>Shahbagh</td><td><b>~30 min</b></td></tr><tr><td>Farmgate</td><td><b>~45 min</b></td></tr></table>
+          </div>
+        </div>
+      </div>
+
+      <div id="pec-plots" style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Available plot sizes</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px">Flexible Plot Options for <span class="gold-txt">Every Need</span></h2></div>
+        <div class="plot-grid rv">
+          <div class="plot"><small>Residential</small><b class="gold-txt">3</b><span>Katha</span></div>
+          <div class="plot"><small>Residential</small><b class="gold-txt">4</b><span>Katha</span></div>
+          <div class="plot"><small>Residential</small><b class="gold-txt">5</b><span>Katha</span></div>
+          <div class="plot"><small>Residential</small><b class="gold-txt">6</b><span>Katha</span></div>
+          <div class="plot"><small>Res. &amp; Commercial</small><b class="gold-txt">10</b><span>Katha</span></div>
+          <div class="plot"><small>VIP Plot</small><b class="gold-txt">20</b><span>Katha</span></div>
+        </div>
+      </div>
+
+      <div id="pec-price" style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Pricing and payment</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px">Easy and flexible <span class="gold-txt">payment options</span></h2></div>
+        <div class="why-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+          <div class="why rv"><div class="idx">20%</div><h3>Booking money</h3><p>20% of the total payment — Per Katha.</p></div>
+          <div class="why rv"><div class="idx">60%</div><h3>One-time purchase</h3><p>60% upfront. Down payment facility available — Per Katha.</p></div>
+          <div class="why rv"><div class="idx">40%</div><h3>Remaining balance</h3><p>40% payable within 3 months.</p></div>
+        </div>
+        <p class="note rv" style="margin-top:22px">The company reserves the right to change pricing at any time.</p>
+      </div>
+
+      <div id="pec-growth" style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Future development &amp; investment</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px">Why this location is <span class="gold-txt">highly profitable</span></h2>
+          <p class="lead" style="margin:0">The Dhaka-Mawa corridor is rapidly developing into one of the most promising growth zones near Dhaka, with multiple government and private initiatives increasing the area's future value.</p></div>
+        <ul class="checks rv">
+          <li>Government housing projects nearby</li>
+          <li>Planned industrial zone in Louhajong</li>
+          <li>Proposed modern townships near Keraniganj</li>
+          <li>Central Jail establishment completed</li>
+          <li>Proposed Jagannath University campus</li>
+          <li>Padma Bridge connectivity growth</li>
+          <li>Railway and highway infrastructure expansion</li>
+          <li>Future airport and industrial park plans</li>
+        </ul>
+      </div>
+
+      <div id="pec-lifestyle">
+        <div class="sec-head rv"><span class="eyebrow">Lifestyle and community</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px">Designed for comfortable and <span class="gold-txt">healthy living</span></h2></div>
+        <ul class="checks rv">
+          <li>Green open spaces</li><li>Landscaped gardens</li><li>Wide walkways</li><li>Organized urban planning</li>
+          <li>Peaceful residential environment</li><li>Fresh, pollution-free atmosphere</li>
+        </ul>
+      </div>
+
+      <div style="margin:80px 0">
+        <div class="sec-head rv"><span class="eyebrow">Pushpo Eco City · Calculators</span><h2 style="font-size:clamp(24px,3.4vw,40px);margin:16px 0 0">Plot Price, EMI &amp; <span class="gold-txt">ROI</span></h2></div>
+        <div class="tabs rv"><button class="on" data-t="emi">① Pricing &amp; EMI</button><button data-t="roi">② ROI Projection</button></div>
+        <div class="calc rv" data-calc data-default="pushpo-eco-city"></div>
+        <div class="calc rv" data-roi data-default="pushpo-eco-city" style="display:none"></div>
+      </div>
+
+      <div class="cta rv" style="margin-top:80px">
+        <h2>Visit Pushpo Eco City <span class="gold-txt">This Weekend</span></h2>
+        <p class="lead" style="max-width:600px;margin:0 auto 30px">Book a free site visit and let our team walk you through every plot size, payment plan and legal document.</p>
+        <a href="#contact" class="btn btn-gold" data-nav>Book Free Site Visit</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : THE BAY ICON — KOLATOLI
+============================================================ -->
+<div class="page" id="page-the-bay-icon-kolatoli">
+  <section class="p-hero">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/s.jpeg" alt="The Bay Icon International Hotel & Resort, Kolatoli, Cox's Bazar"></div>
+    <div class="wrap in">
+      <div class="crumbs"><a href="#home" data-nav>Home</a> · <a href="#properties" data-nav>Projects</a> · <span style="color:var(--gold2)">The Bay Icon — Kolatoli</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+        <span class="pill" style="margin:0">✔ Registration Complete</span><span class="pill" style="margin:0">100% Legal</span><span class="pill" style="margin:0">Transferable Shares</span><span class="pill" style="margin:0">Halal Monthly Income</span>
+      </div>
+      <h1 style="font-size:clamp(32px,5.2vw,64px);max-width:900px">The Bay Icon International <span class="gold-txt">Hotel &amp; Resort</span></h1>
+      <p class="lead" style="max-width:780px;margin-top:22px">A world-class five-star hospitality investment at Kolatoli, Cox's Bazar, offering legal security, halal passive income, and lifetime returns on Bangladesh's most iconic beachfront.</p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="wrap">
+      <div class="anchor-nav rv">
+        <a href="#bi-spec">Specifications</a><a href="#bi-glance">At a Glance</a><a href="#bi-luxury">A New Standard</a><a href="#bi-rooms">Rooms &amp; Suites</a><a href="#bi-spaces">Hotel Facilities</a><a href="#bi-club">Club Membership</a>
+      </div>
+
+      <div id="bi-spec" class="tiles rv" style="margin-bottom:60px">
+        <div class="tile"><b class="gold-txt">5</b><small>Hotel Grade</small></div>
+        <div class="tile"><b class="gold-txt">205</b><small>Decimals Land</small></div>
+        <div class="tile"><b class="gold-txt">B+G+13</b><small>Floors</small></div>
+        <div class="tile"><b class="gold-txt">5×</b><small>Value in 5 Yrs</small></div>
+        <div class="tile"><b class="gold-txt" style="font-size:20px;padding-top:8px">Pushpodhara</b><small>Group</small></div>
+      </div>
+
+      <div class="card rv" style="padding:14px 28px;margin-bottom:80px">
+        <table class="spec-table">
+          <tr><td>Name</td><td><b>Bay Icon International Hotel &amp; Resort Ltd.</b></td></tr>
+          <tr><td>Address</td><td>Kolatoli Marine Drive, Cox's Bazar, Bangladesh</td></tr>
+          <tr><td>Type</td><td>Commercial Space &amp; 5-Star Luxury Hotel</td></tr>
+          <tr><td>Land Orientation</td><td>West Facing</td></tr>
+          <tr><td>Land Area</td><td>205 Decimals (Government-allotted)</td></tr>
+          <tr><td>Number of Floors</td><td>B + G + 13</td></tr>
+          <tr><td>Front Road</td><td>80-ft wide road, starting point of Marine Drive</td></tr>
+          <tr><td>Structural Consultant</td><td>Tarifur Rahman Siddique</td></tr>
+          <tr><td>EME Consultant</td><td>Abdullah Al Hossain Chowdhury (Rizvi)</td></tr>
+          <tr><td>Location Type</td><td>Prime Beachfront, Kolatoli Marine Drive</td></tr>
+        </table>
+      </div>
+
+      <div id="bi-glance" style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Project highlights</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 0">At a <span class="gold-txt">Glance</span></h2></div>
+        <div class="feat-grid" style="grid-template-columns:repeat(auto-fit,minmax(290px,1fr))">
+          <div class="feat rv"><h4>🔁 Transferable Ownership</h4><p>Shares can be sold or transferred at any time, making the investment genuinely liquid and flexible for changing circumstances.</p></div>
+          <div class="feat rv"><h4>📜 100% Legal Documentation</h4><p>Registration is successfully completed. Every share is backed by fully secure, lawfully verified paperwork, zero ambiguity.</p></div>
+          <div class="feat rv"><h4>📈 5× Asset Appreciation</h4><p>Cox's Bazar's prime hospitality corridor is projected to deliver at minimum 5× asset value growth within the next 5 years.</p></div>
+          <div class="feat rv"><h4>🌙 Halal Monthly Income</h4><p>Earn consistent passive returns every month through a fully ethical, interest-free profit-sharing framework, for life.</p></div>
+          <div class="feat rv"><h4>🏝 Prime Government Land</h4><p>205 decimals of government-allotted, west-facing beachfront land, the rarest and most valuable class of asset in Cox's Bazar.</p></div>
+          <div class="feat rv"><h4>♾ Lifetime Passive Income</h4><p>One investment, rewards forever. Profit sharing from all hotel revenue streams with no duration cap and no hidden conditions.</p></div>
+        </div>
+      </div>
+
+      <div id="bi-luxury" class="two-col" style="align-items:center;margin-bottom:80px">
+        <div class="about-img rv"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-Bay-Icon-3-e1785151668298.png" alt="The Bay Icon Cox's Bazar rendering"></div>
+        <div>
+          <span class="eyebrow rv">Project details</span>
+          <h2 class="rv" style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 16px">A New Standard of <span class="gold-txt">Luxury</span></h2>
+          <p class="lead rv">Located at Kolatoli, Marine Drive Road, Cox's Bazar, on 300 bigha of prime beachfront land along the world's longest sea beach. Architectural partnership with Interspace Ltd.</p>
+          <ul class="checks rv" style="margin-top:22px">
+            <li>Stunning beach view and hill view from every floor</li>
+            <li>Close to Sugandha Beach, Laboni Beach, and Inani Beach</li>
+            <li>Restaurants, shopping, and tourist attractions within easy reach</li>
+            <li>Convenient access to Marine Drive</li>
+            <li>Only 20 minutes from International Airport and Railway Station</li>
+            <li>Investors from Malaysia and Singapore have already secured shares</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Investor benefits</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 0">Ownership <span class="gold-txt">Rewards</span></h2></div>
+        <ul class="checks rv">
+          <li>Lifetime hotel share ownership rights</li><li>Monthly halal passive income</li>
+          <li>Profit sharing from all revenue streams</li><li>Complimentary annual stay nights</li>
+          <li>VIP access and privileges</li><li>Transparent accounting and reporting</li>
+          <li>Airport and railway station pickup &amp; drop</li><li>Dedicated VIP services for high-value members</li>
+          <li>Prime beachside land ownership, a secure asset for your family</li>
+        </ul>
+      </div>
+
+      <div id="bi-rooms" style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Rooms &amp; Suites</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px"><span class="gold-txt">12</span> Room Categories</h2>
+          <p class="lead" style="margin:0">Every room at Bay Icon is a sanctuary of elegance and modern sophistication, with a choice of majestic hill view or endless turquoise waters of the Bay of Bengal.</p></div>
+        <div class="about-img rv" style="margin-bottom:26px"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-Bay-Icon-Room-Category-2048x2048.png" alt="The Bay Icon room categories"></div>
+        <div class="card rv" style="padding:30px">
+          <h4 style="color:var(--gold2);letter-spacing:.16em;font-size:11px;font-family:'Inter',sans-serif;text-transform:uppercase;margin:0 0 16px">In-room services &amp; amenities</h4>
+          <ul class="checks">
+            <li>Rooftop &amp; Infinity Swimming Pool</li><li>UHD 55" TV with OTT service</li><li>Hair dryer &amp; shaving mirror</li>
+            <li>Bluetooth speaker</li><li>Mobile phone charger</li><li>Polish goose down feather bedding</li>
+            <li>5 types of pillows to choose from</li><li>Simmons Beautyrest mattress</li><li>Zero twist towels &amp; terry bathrobes</li>
+            <li>Anti-allergy bedding on request</li><li>Complimentary capsule coffee, tea &amp; water</li><li>In-room safe</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="bi-spaces" style="margin-bottom:80px">
+        <div class="sec-head rv"><span class="eyebrow">Hotel facilities</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 0">World-Class <span class="gold-txt">Spaces</span></h2></div>
+        <div class="gal rv">
+          <figure><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/Modern-and-Minimalist-Lobby.png" alt="Modern and Minimalist Lobby"></figure>
+          <figure><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/Cozy-and-Sophisticated-Reception.png" alt="Cozy and Sophisticated Reception"></figure>
+          <figure><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-Golden-Foyer.png" alt="The Golden Foyer"></figure>
+          <figure><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/Seaside-Al-Fresco-Dining.png" alt="Seaside Al Fresco Dining"></figure>
+        </div>
+        <ul class="checks rv" style="margin-top:26px">
+          <li>Rooftop &amp; Infinity Swimming Pool</li><li>Sky Restaurant &amp; Sky Lounge</li><li>Modern Business Center</li>
+          <li>Ballroom, 300 to 1,000 guests</li><li>Fully Equipped Gym &amp; Wellness Center</li><li>BBQ Zone</li>
+          <li>Shopping Corner</li><li>Prayer Space</li><li>Kids' Zone</li>
+          <li>Spacious Parking &amp; 24/7 Security</li><li>Laundry &amp; Staff Rooms</li><li>Juice Bar &amp; Food Counters</li>
+        </ul>
+      </div>
+
+      <div id="bi-club">
+        <div class="sec-head rv"><span class="eyebrow">Club membership</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px">Six Tiers of <span class="gold-txt">Exclusive Membership</span></h2>
+          <p class="lead" style="margin:0">Every Bay Icon investor becomes a Club Member, unlocking personal discounts, complimentary stays, referral rewards, and cross-resort privileges across all Pushpodhara Group properties.</p></div>
+        <div class="prop-grid">
+          <div class="tier top rv"><div class="off gold-txt">80%</div><div class="sq">Personal Discount</div><h4>Icon Membership (5000 Sq ft.)</h4>
+            <p style="color:var(--muted);font-size:13px;font-weight:300;margin:6px 0 0">The Ultimate Pinnacle of Luxury</p>
+            <ul><li>Up to 40% Discount Across All Hotel and Resort Projects of Pushpodhara Group</li><li>Complimentary stay: 3 nights × 4 times/year</li><li>Referral discount 40% (for clients)</li><li>Referral Reward: 15%</li><li>Profit sharing, luxury hamper, future investment projects priority access, full VIP recognition</li></ul></div>
+          <div class="tier rv"><div class="off gold-txt">70%</div><div class="sq">Personal Discount</div><h4>Royal Membership (3000 Sq ft.)</h4>
+            <p style="color:var(--muted);font-size:13px;font-weight:300;margin:6px 0 0">Regal Comfort &amp; Dedicated Service</p>
+            <ul><li>Up to 40% Discount Across All Hotel and Resort Projects of Pushpodhara Group</li><li>Complimentary stay: 3 nights × 3 times/year</li><li>Referral discount 40% (for clients)</li><li>Referral Reward: 15%</li><li>VIP recognition, welcome gift hampers, priority reservations, investment opportunities</li></ul></div>
+          <div class="tier rv"><div class="off gold-txt">60%</div><div class="sq">Personal Discount</div><h4>Signature Membership (2000 Sq ft.)</h4>
+            <p style="color:var(--muted);font-size:13px;font-weight:300;margin:6px 0 0">Curated Experiences &amp; Special Access</p>
+            <ul><li>Up to 40% Discount Across All Hotel and Resort Projects of Pushpodhara Group</li><li>Complimentary stay: 3 nights × 2 times/year</li><li>Referral discount 40% (for clients)</li><li>Referral Reward: 12.5%</li><li>VIP transport, Marine Drive &amp; Saint Martin tours, priority future investment access</li></ul></div>
+          <div class="tier rv"><div class="off gold-txt">55%</div><div class="sq">Personal Discount</div><h4>Icon Membership (1000 Sq ft.)</h4>
+            <p style="color:var(--muted);font-size:13px;font-weight:300;margin:6px 0 0">Sophisticated Rewards for Frequent Guests</p>
+            <ul><li>Up to 20%-30% Discount Across All Hotel and Resort Projects of Pushpodhara Group</li><li>Complimentary stay: 3 nights/year</li><li>Referral discount 40% (for clients)</li><li>Referral reward: 10%</li><li>Complimentary airport pick-up, VIP dining, premium floor access</li></ul></div>
+          <div class="tier rv"><div class="off gold-txt">50%</div><div class="sq">Personal Discount</div><h4>Royal Membership (600 Sq ft.)</h4>
+            <p style="color:var(--muted);font-size:13px;font-weight:300;margin:6px 0 0">Enhanced Benefits &amp; Premium Stays</p>
+            <ul><li>Up to 20%-30% Discount Across All Hotel and Resort Projects of Pushpodhara Group</li><li>Complimentary Stay: 02 Nights per Year</li><li>Referral Discount: 40% (For Clients)</li><li>Referral Reward: 7.5%</li><li>Upgrades, early/late check-out, dining discounts, birthday benefits</li></ul></div>
+          <div class="tier rv"><div class="off gold-txt">45%</div><div class="sq">Personal Discount</div><h4>Signature Membership (300 Sq ft.)</h4>
+            <p style="color:var(--muted);font-size:13px;font-weight:300;margin:6px 0 0">Your Gateway to the Bay Icon Lifestyle</p>
+            <ul><li>Up to 20%-30% Discount Across All Hotel and Resort Projects of Pushpodhara Group</li><li>Complimentary Stay: 01 Night per Year</li><li>Referral discount: 40% (for clients)</li><li>Referral Reward: 5%</li><li>Pool &amp; gym access, rooftop lounge, gift hamper</li></ul></div>
+        </div>
+      </div>
+
+      <div style="margin-top:80px">
+        <div class="sec-head rv"><span class="eyebrow">The Bay Icon · Investment Calculator</span><h2 style="font-size:clamp(24px,3.4vw,40px);margin:16px 0 0">Model Your Share Size &amp; <span class="gold-txt">Payment Schedule</span></h2></div>
+        <div class="calc rv" data-calc data-default="the-bay-icon-kolatoli"></div>
+      </div>
+
+      <div class="cta rv" style="margin-top:80px">
+        <h2>Own a Share of <span class="gold-txt">Cox's Bazar's Skyline</span></h2>
+        <p class="lead" style="max-width:620px;margin:0 auto 30px">Talk to our investment desk about Bay Icon share ownership, projected returns and the halal profit-sharing structure.</p>
+        <a href="#contact" class="btn btn-gold" data-nav>Request Investor Deck</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : THE IMPERIUM ESKATON
+============================================================ -->
+<div class="page" id="page-the-imperium-eskaton">
+  <section class="p-hero">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-Imperium-Eskaton-1.png" alt="The Imperium Eskaton"></div>
+    <div class="wrap in">
+      <div class="crumbs"><a href="#home" data-nav>Home</a> · <a href="#properties" data-nav>Projects</a> · <span style="color:var(--gold2)">The Imperium Eskaton</span></div>
+      <span class="pill">◆ Eskaton, Dhaka · Commercial · High ROI</span>
+      <h1 style="font-size:clamp(32px,5.2vw,64px)">The Imperium <span class="gold-txt">Eskaton</span></h1>
+      <p class="lead" style="max-width:740px;margin-top:22px">Eskaton, the heart of Dhaka, where personal time is lost in the hustle and bustle of daily life.</p>
+    </div>
+  </section>
+  <section class="blk">
+    <div class="wrap">
+      <div class="tiles rv" style="margin-bottom:60px">
+        <div class="tile"><b class="gold-txt">Dhaka</b><small>Central Business District</small></div>
+        <div class="tile"><b class="gold-txt">Commercial</b><small>Property Type</small></div>
+        <div class="tile"><b class="gold-txt">RAJUK</b><small>Registered</small></div>
+        <div class="tile"><b class="gold-txt">High</b><small>Return on Investment</small></div>
+      </div>
+      <div class="two-col" style="align-items:center">
+        <div>
+          <span class="eyebrow rv">Upcoming Project</span>
+          <h2 class="rv" style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 16px">A Commercial Landmark in the <span class="gold-txt">Heart of Dhaka</span></h2>
+          <p class="lead rv">Eskaton is one of Dhaka's most established addresses — a rare corridor where corporate offices, diplomatic zones, educational institutions and premium residences meet. The Imperium Eskaton is being designed as a modern commercial landmark for businesses that want to be exactly where the city works.</p>
+          <p class="lead rv">Full specifications, floor plans and pricing will be published shortly. Register your interest and our team will contact you with the pre-launch details first.</p>
+          <div class="rv" style="margin-top:28px"><a href="#contact" class="btn btn-gold" data-nav>Register Interest</a></div>
+        </div>
+        <div class="about-img rv"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-Imperium-Eskaton-1.png" alt="The Imperium Eskaton elevation"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : THE BAY ICON — SUGANDHA
+============================================================ -->
+<div class="page" id="page-the-bay-icon-sugandha">
+  <section class="p-hero">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-bay-Icon-sugandha-1.png" alt="The Bay Icon Sugandha"></div>
+    <div class="wrap in">
+      <div class="crumbs"><a href="#home" data-nav>Home</a> · <a href="#properties" data-nav>Projects</a> · <span style="color:var(--gold2)">The Bay Icon — Sugandha</span></div>
+      <span class="pill">◆ Sugandha, Cox's Bazar · Beachfront · High ROI</span>
+      <h1 style="font-size:clamp(32px,5.2vw,64px)">The Bay Icon — <span class="gold-txt">Sugandha</span></h1>
+      <p class="lead" style="max-width:740px;margin-top:22px">A premium beachfront address at Sugandha, Cox's Bazar — moments from the Kolatoli Marine Drive and the world's longest sea beach.</p>
+    </div>
+  </section>
+  <section class="blk">
+    <div class="wrap">
+      <div class="tiles rv" style="margin-bottom:60px">
+        <div class="tile"><b class="gold-txt">Beachfront</b><small>Land Orientation</small></div>
+        <div class="tile"><b class="gold-txt">Cox's Bazar</b><small>Location</small></div>
+        <div class="tile"><b class="gold-txt">Hospitality</b><small>Asset Class</small></div>
+        <div class="tile"><b class="gold-txt">High ROI</b><small>Growth Potential</small></div>
+      </div>
+      <div class="two-col" style="align-items:center">
+        <div class="about-img rv"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-bay-Icon-sugandha-1.png" alt="The Bay Icon Sugandha rendering"></div>
+        <div>
+          <span class="eyebrow rv">Upcoming Project</span>
+          <h2 class="rv" style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 16px">Where the Bay Meets <span class="gold-txt">Everyday Luxury</span></h2>
+          <p class="lead rv">Sugandha sits directly on Cox's Bazar's celebrated shoreline, a short walk from the starting point of the Marine Drive. As tourist footfall and hospitality revenue in Cox's Bazar continue to climb, beachfront plots in Sugandha have become one of the scarcest and most sought-after asset classes in Bangladesh.</p>
+          <p class="lead rv">The Bay Icon — Sugandha extends the Bay Icon family with the same promise: clean title, complete legal documentation and transparent ownership.</p>
+          <div class="rv" style="margin-top:28px"><a href="#contact" class="btn btn-gold" data-nav>Enquire Now</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : PUSHPO BELT CITY
+============================================================ -->
+<div class="page" id="page-pushpo-belt-city">
+  <section class="p-hero">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/elementor/thumbs/Pushpo-Eco-City-e1780301887110-rob36gsmlkcf4e2js76igsxo1xbz4arp3c38q7zj70.jpeg" alt="Pushpo Belt City Keraniganj"></div>
+    <div class="wrap in">
+      <div class="crumbs"><a href="#home" data-nav>Home</a> · <a href="#properties" data-nav>All Projects</a> · <span style="color:var(--gold2)">Pushpo Belt City</span></div>
+      <span class="pill">◆ Keraniganj · Dhaka–Mawa Expressway · 300 Acres</span>
+      <h1 style="font-size:clamp(32px,5.2vw,64px)">Pushpo Belt <span class="gold-txt">City</span></h1>
+      <p class="lead bn" style="max-width:780px;margin-top:22px">ঢাকার কেরানীগঞ্জে অবস্থিত — ঢাকা শহীদ সোহরাওয়ার্দী থেকে ২১ কিলোমিটার এবং মাওয়া নিয়ে ১৩ কিলোমিটার মধ্যে। প্রকল্পটি ৩০০ একর সম্পন্ন ঢাকা-মাওয়া এক্সপ্রেসওয়ের পাশে অবস্থিত।</p>
+    </div>
+  </section>
+  <section class="blk">
+    <div class="wrap">
+      <div class="anchor-nav rv"><a href="#pbc-price">Pricing</a><a href="#pbc-plans">Instalment Plans</a><a href="#pbc-loc">Location</a><a href="#pbc-calc">Calculators</a></div>
+      <div class="tiles rv" style="margin-bottom:60px">
+        <div class="tile"><b class="gold-txt">300</b><small>Acres Project Area</small></div>
+        <div class="tile"><b class="gold-txt">21</b><small>KM from Dhaka</small></div>
+        <div class="tile"><b class="gold-txt">13</b><small>KM from Mawa / Padma</small></div>
+        <div class="tile"><b class="gold-txt">96</b><small>Kisti Instalment</small></div>
+      </div>
+
+      <div id="pbc-price" style="margin-bottom:70px">
+        <div class="sec-head rv"><span class="eyebrow">Official price list</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px">Block-wise <span class="gold-txt">Per Katha Price</span></h2>
+          <p class="lead bn" style="margin:0">প্লটের দাম প্রতি কাঠা মূল্য · বুকিং অ্যাডভান্স হিসাবে মূল্যের ২০% · মূল্য পরিশোধের ক্ষেত্রে আপনার পছন্দের প্লটটি আটকে থাকবে।</p></div>
+        <div class="tbl-wrap rv"><div class="tbl-scroll">
+          <table class="tbl"><thead><tr><th>Block</th><th>Plot Type</th><th>Price / Katha</th><th>Min Plot</th></tr></thead>
+            <tbody>
+              <tr><td rowspan="4"><b>Block 01</b></td><td>Residential · City Plan</td><td class="pr" data-bdt="1500000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Block Plan</td><td class="pr" data-bdt="1450000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Angle Plan</td><td class="pr" data-bdt="1400000"></td><td>3 Katha</td></tr>
+              <tr><td>Commercial Plot</td><td class="pr" data-bdt="2000000"></td><td>2 Katha</td></tr>
+              <tr><td rowspan="4"><b>Block 02</b></td><td>Residential · City Plan</td><td class="pr" data-bdt="1200000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Block Plan</td><td class="pr" data-bdt="1150000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Angle Plan</td><td class="pr" data-bdt="1100000"></td><td>3 Katha</td></tr>
+              <tr><td>Commercial Plot</td><td class="pr" data-bdt="1500000"></td><td>2 Katha</td></tr>
+              <tr><td rowspan="4"><b>Block 03</b></td><td>Residential · City Plan</td><td class="pr" data-bdt="900000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Block Plan</td><td class="pr" data-bdt="850000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Angle Plan</td><td class="pr" data-bdt="800000"></td><td>3 Katha</td></tr>
+              <tr><td>Commercial Plot</td><td class="pr" data-bdt="1200000"></td><td>2 Katha</td></tr>
+            </tbody></table>
+        </div></div>
+      </div>
+
+      <div id="pbc-plans" class="two-col" style="margin-bottom:70px">
+        <div>
+          <span class="eyebrow rv">Instalment</span>
+          <h2 class="rv" style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 16px">Grace Period সহ <span class="gold-txt">কিস্তি প্ল্যান</span></h2>
+          <p class="lead rv bn">ব্লক A, B, C, D অনুযায়ী নমুনা কিস্তি। গ্রেস পিরিয়ডে কোনো কিস্তি দিতে হয় না — তারপর সমান মাসিক কিস্তিতে বাকি টাকা পরিশোধ করা যায়।</p>
+          <div class="plot-grid rv" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+            <div class="plot"><small>Kisti</small><b class="gold-txt">36</b><span>3 Years Grace</span></div>
+            <div class="plot"><small>Kisti</small><b class="gold-txt">48</b><span>7 Years Grace</span></div>
+            <div class="plot"><small>Kisti</small><b class="gold-txt">60</b><span>5 Years Grace</span></div>
+            <div class="plot"><small>Kisti</small><b class="gold-txt">72</b><span>6 Years Grace</span></div>
+            <div class="plot"><small>Kisti</small><b class="gold-txt">96</b><span>8 Years Grace</span></div>
+          </div>
+        </div>
+        <div class="card rv" style="padding:28px">
+          <h4 style="color:var(--gold2);letter-spacing:.16em;font-size:11px;font-family:'Inter',sans-serif;text-transform:uppercase;margin:0 0 14px">Payment terms</h4>
+          <table class="spec-table">
+            <tr><td>Booking / Advance</td><td><b>20% of total value</b></td></tr>
+            <tr><td>Down Payment</td><td>Negotiable on balance</td></tr>
+            <tr><td>Grace Period</td><td>3 – 9 years (plan based)</td></tr>
+            <tr><td>Instalments</td><td>36 / 48 / 60 / 72 / 96 months</td></tr>
+            <tr><td>Registration</td><td>On full payment</td></tr>
+            <tr><td>Price revision</td><td>Any time by authority</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div id="pbc-loc" style="margin-bottom:70px">
+        <div class="sec-head rv"><span class="eyebrow">Location &amp; connectivity</span><h2 style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 12px">আশেপাশে যা যা <span class="gold-txt">আছে</span></h2></div>
+        <ul class="checks rv bn">
+          <li>বিশ্ববিদ্যালয়ের প্রতিষ্ঠান, মসজিদ, হাসপাতাল ও শিশু শিক্ষা প্রতিষ্ঠান</li>
+          <li>মাদ্রাসা, ঈদগাহ ময়দান ও কবরস্থান (Islamic Cemetery)</li>
+          <li>শ্মশান, বিদ্যুৎ কার্যালয়, ডাকবিস ও ব্যাংক</li>
+          <li>বাংলাদেশ ও পাকিস্তান সীমান্ত সংরক্ষণ সড়ক সংযোগ</li>
+          <li>হাইওয়ে পুলিশ, র‌্যাব ক্যাম্প, চেকপোস্ট ও কাস্টম হাউস</li>
+          <li>পানি উন্নয়ন বোর্ড ও ওয়াটার ট্রিটমেন্ট প্ল্যান্ট</li>
+          <li>মুক্ত সড়ক সংযোগ, সিটি কর্পোরেশন ও উপজেলা অফিস</li>
+          <li>ঢাকা–মাওয়া এক্সপ্রেসওয়ে — সরাসরি সংযোগ</li>
+        </ul>
+      </div>
+
+      <div id="pbc-calc">
+        <div class="sec-head rv"><span class="eyebrow">Pushpo Belt City · Calculators</span><h2 style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 0">Pricing, EMI &amp; <span class="gold-txt">ROI</span></h2></div>
+        <div class="tabs rv"><button class="on" data-t="emi">① Pricing &amp; EMI</button><button data-t="roi">② ROI Projection</button></div>
+        <div class="calc rv" data-calc data-default="pushpo-belt-city"></div>
+        <div class="calc rv" data-roi data-default="pushpo-belt-city" style="display:none"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : DHAKA WESTERN VALLEY
+============================================================ -->
+<div class="page" id="page-dhaka-western-valley">
+  <section class="p-hero">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/Dream-Lands.png" alt="Dhaka Western Valley"></div>
+    <div class="wrap in">
+      <div class="crumbs"><a href="#home" data-nav>Home</a> · <a href="#properties" data-nav>All Projects</a> · <span style="color:var(--gold2)">Dhaka Western Valley</span></div>
+      <span class="pill">◆ Keraniganj · Phase 1 &amp; 2 · Golden &amp; Diamond Plots</span>
+      <h1 style="font-size:clamp(30px,5vw,60px)">Dhaka Western <span class="gold-txt">Valley</span></h1>
+      <p class="lead bn" style="max-width:780px;margin-top:22px">ঢাকা ও কেরানীগঞ্জ থেকে নদী পার হয়ে দক্ষিণ-পশ্চিমে গড়ে উঠছে একটি স্বয়ংসম্পূর্ণ শহর — দুইটি Phase-এ ১৭টি স্বয়ংসম্পূর্ণ প্রতিষ্ঠান।</p>
+    </div>
+  </section>
+  <section class="blk">
+    <div class="wrap">
+      <div class="anchor-nav rv"><a href="#dwv-price">Pricing</a><a href="#dwv-plot">Plot Sizes</a><a href="#dwv-calc">Calculators</a></div>
+      <div class="tiles rv" style="margin-bottom:60px">
+        <div class="tile"><b class="gold-txt">2</b><small>Phases</small></div>
+        <div class="tile"><b class="gold-txt">17</b><small>Self-contained Institutions</small></div>
+        <div class="tile"><b class="gold-txt">1</b><small>Acre Mega Plots</small></div>
+        <div class="tile"><b class="gold-txt">20%</b><small>Booking Advance</small></div>
+      </div>
+
+      <div id="dwv-price" style="margin-bottom:70px">
+        <div class="sec-head rv"><span class="eyebrow">Official price list</span><h2 style="font-size:clamp(26px,3.6vw,42px);margin:16px 0 12px">Phase-wise <span class="gold-txt">Per Katha Price</span></h2>
+          <p class="lead bn" style="margin:0">বুকিং অ্যাডভান্স হিসাবে মূল্যের ২০% · মূল্য পরিশোধের ক্ষেত্রে আপনার পছন্দের প্লটটি আটকে থাকবে।</p></div>
+        <div class="tbl-wrap rv"><div class="tbl-scroll">
+          <table class="tbl"><thead><tr><th>Phase</th><th>Plot Type</th><th>Price / Katha</th><th>Min Plot</th></tr></thead>
+            <tbody>
+              <tr><td rowspan="5"><b>Phase 1</b></td><td>Commercial Plot · City</td><td class="pr" data-bdt="2800000"></td><td>2 Katha</td></tr>
+              <tr><td>Residential · City Plan</td><td class="pr" data-bdt="2700000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Block Plan</td><td class="pr" data-bdt="2200000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Angle Plan</td><td class="pr" data-bdt="2100000"></td><td>3 Katha</td></tr>
+              <tr><td>Commercial · Angle Plan</td><td class="pr" data-bdt="2000000"></td><td>2 Katha</td></tr>
+              <tr><td rowspan="5"><b>Phase 2</b></td><td>Commercial Plot · City</td><td class="pr" data-bdt="2600000"></td><td>2 Katha</td></tr>
+              <tr><td>Residential · City Plan</td><td class="pr" data-bdt="2500000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Block Plan</td><td class="pr" data-bdt="2000000"></td><td>3 Katha</td></tr>
+              <tr><td>Residential · Angle Plan</td><td class="pr" data-bdt="1900000"></td><td>3 Katha</td></tr>
+              <tr><td>Commercial · Angle Plan</td><td class="pr" data-bdt="1800000"></td><td>2 Katha</td></tr>
+            </tbody></table>
+        </div></div>
+      </div>
+
+      <div id="dwv-plot" class="two-col" style="margin-bottom:70px">
+        <div>
+          <span class="eyebrow rv">Plot options</span>
+          <h2 class="rv" style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 16px">Golden &amp; Diamond <span class="gold-txt">Special Plots</span></h2>
+          <p class="lead bn rv">গোল্ডেন এবং ডায়মন্ড স্পেশাল কিস্তিতে আবাসিক ও বাণিজ্যিক ৩, ৫, ১০ কাঠা এবং ১ একর মাপের প্লট এই প্রকল্পে সংরক্ষণ করা হয়েছে।</p>
+          <div class="plot-grid rv" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
+            <div class="plot"><small>Residential</small><b class="gold-txt">3</b><span>Katha</span></div>
+            <div class="plot"><small>Residential</small><b class="gold-txt">5</b><span>Katha</span></div>
+            <div class="plot"><small>Res./Comm.</small><b class="gold-txt">10</b><span>Katha</span></div>
+            <div class="plot"><small>Mega Plot</small><b class="gold-txt">1</b><span>Acre</span></div>
+          </div>
+        </div>
+        <div class="card rv" style="padding:28px">
+          <h4 style="color:var(--gold2);letter-spacing:.16em;font-size:11px;font-family:'Inter',sans-serif;text-transform:uppercase;margin:0 0 14px">Travel time</h4>
+          <table class="spec-table">
+            <tr><td>Bus / Minibus</td><td><b>10 – 15 min</b></td></tr>
+            <tr><td>Bicycle / Rickshaw</td><td><b>5 – 10 min</b></td></tr>
+            <tr><td>Easy Bike</td><td><b>10 min</b></td></tr>
+            <tr><td>Van</td><td><b>10 min</b></td></tr>
+            <tr><td>Truck / Heavy</td><td><b>20 min</b></td></tr>
+          </table>
+          <p class="note" style="margin-top:14px">www.dhakawesternvalleybd.com</p>
+        </div>
+      </div>
+
+      <div id="dwv-calc">
+        <div class="sec-head rv"><span class="eyebrow">Dhaka Western Valley · Calculators</span><h2 style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 0">Pricing, EMI &amp; <span class="gold-txt">ROI</span></h2></div>
+        <div class="tabs rv"><button class="on" data-t="emi">① Pricing &amp; EMI</button><button data-t="roi">② ROI Projection</button></div>
+        <div class="calc rv" data-calc data-default="dhaka-western-valley"></div>
+        <div class="calc rv" data-roi data-default="dhaka-western-valley" style="display:none"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : PUSPO HOMES LARISA
+============================================================ -->
+<div class="page" id="page-puspo-homes-larisa">
+  <section class="p-hero">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-Imperium-Eskaton-1.png" alt="Puspo Homes Larisa Condominium"></div>
+    <div class="wrap in">
+      <div class="crumbs"><a href="#home" data-nav>Home</a> · <a href="#properties" data-nav>All Projects</a> · <span style="color:var(--gold2)">Puspo Homes · Larisa</span></div>
+      <span class="pill">◆ Bhuigol, Narayanganj · beside Rupayan Town · Handover 2028</span>
+      <h1 style="font-size:clamp(28px,4.8vw,58px)">Puspo Homes <span class="gold-txt">Larisa Condominium</span></h1>
+      <p class="lead bn" style="max-width:780px;margin-top:22px">নারায়ণগঞ্জ ভুঁইগড় আল আমিন হাউজিং সোসাইটির অভ্যন্তরে প্রস্তুত একটি সুপার লাক্সারি এপার্টমেন্ট — আধুনিক সুবিধা সম্বলিত।</p>
+    </div>
+  </section>
+  <section class="blk">
+    <div class="wrap">
+      <div class="anchor-nav rv"><a href="#phl-plan">Flat Plans</a><a href="#phl-amen">Amenities</a><a href="#phl-calc">Calculators</a></div>
+      <div class="tiles rv" style="margin-bottom:60px">
+        <div class="tile"><b class="gold-txt">2024</b><small>Construction Start</small></div>
+        <div class="tile"><b class="gold-txt">2028</b><small>Handover</small></div>
+        <div class="tile"><b class="gold-txt">35%</b><small>Common Space / Floor</small></div>
+        <div class="tile"><b class="gold-txt">100%</b><small>Common Space · 5th Floor</small></div>
+      </div>
+
+      <div id="phl-plan" class="two-col" style="align-items:start;margin-bottom:70px">
+        <div>
+          <span class="eyebrow rv">Flat plans</span>
+          <h2 class="rv" style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 18px">আপনার পছন্দের <span class="gold-txt">ফ্ল্যাট</span></h2>
+          <p class="lead bn rv">ফুরিয়ে যাওয়ার আগেই আপনার কাছের ফ্ল্যাটটি নির্বাচন করুন।</p>
+          <div class="feat-grid rv" style="grid-template-columns:1fr">
+            <div class="feat"><h4>৩ বেড, ৩ বাথরুম</h4><p>৩ বারান্দা, কিচেন, ডাইনিং এবং লিভিং রুম।</p></div>
+            <div class="feat"><h4>৪ বেড, ৩ বাথরুম</h4><p>৩ বারান্দা, কিচেন, সার্ভেন্ট কোয়ার্টার, ডাইনিং এবং লিভিং রুম।</p></div>
+            <div class="feat"><h4>কমার্শিয়াল ফ্লোর</h4><p>প্রতি তলায় আধুনিক দোকান, নামাজের জায়গা ও পর্যাপ্ত পার্কিং সুবিধা।</p></div>
+          </div>
+        </div>
+        <div class="card rv" style="padding:28px">
+          <h4 style="color:var(--gold2);letter-spacing:.16em;font-size:11px;font-family:'Inter',sans-serif;text-transform:uppercase;margin:0 0 14px">Project timeline</h4>
+          <table class="spec-table">
+            <tr><td>Location</td><td><b>Bhuigol, Narayanganj</b></td></tr>
+            <tr><td>Landmark</td><td>Beside Rupayan Town</td></tr>
+            <tr><td>Construction Start</td><td>September 2024</td></tr>
+            <tr><td>Handover</td><td><b>October 2028</b></td></tr>
+            <tr><td>Common Space</td><td>35% per floor · 100% on 5th floor</td></tr>
+            <tr><td>Contact</td><td><a href="tel:+8801334756201" style="color:var(--gold2)">+88 01334 756 201</a></td></tr>
+            <tr><td>Email</td><td><a href="mailto:pushpohomes@gmail.com" style="color:var(--gold2)">pushpohomes@gmail.com</a></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div id="phl-amen" style="margin-bottom:70px">
+        <div class="sec-head rv"><span class="eyebrow">Amenities</span><h2 style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 12px">দুই গােড়ান সিস্টেমের নান্দনিক <span class="gold-txt">সুবিধা</span></h2></div>
+        <ul class="checks rv bn">
+          <li>এটিএম বুথ, কিডস জোন, রুফটপ সুইমিং পুল</li>
+          <li>অত্যাধুনিক কমিউনিটি সেন্টার ও আধুনিক অগ্নিনির্বাপণ ব্যবস্থা</li>
+          <li>২৪ ঘণ্টা সিসিটিভি মনিটরিং ও সশস্ত্র নিরাপত্তা কর্মী</li>
+          <li>আধুনিক পার্কিং, শপিং মল ও জীম</li>
+          <li>প্রতিটি এপার্টমেন্টে সংলগ্ন ভেন্টিলেশন সুবিধা — পর্যাপ্ত আলো-বাতাস</li>
+          <li>ওয়াকওয়ে, মসজিদ, সুপার শপ, কমিউনিটি সেন্টার</li>
+          <li>আধুনিক ফিটিংস ও দ্বৈত নিরাপত্তা ব্যবস্থা</li>
+        </ul>
+      </div>
+
+      <div id="phl-calc">
+        <div class="sec-head rv"><span class="eyebrow">Puspo Homes · Larisa Calculators</span><h2 style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 0">Flat Price, EMI &amp; <span class="gold-txt">ROI</span></h2></div>
+        <div class="tabs rv"><button class="on" data-t="emi">① Pricing &amp; EMI</button><button data-t="roi">② ROI Projection</button></div>
+        <div class="calc rv" data-calc data-default="puspo-homes-larisa"></div>
+        <div class="calc rv" data-roi data-default="puspo-homes-larisa" style="display:none"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : ARMIN RESORT
+============================================================ -->
+<div class="page" id="page-armin-resort">
+  <section class="p-hero">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/The-bay-Icon-sugandha-1.png" alt="Armin Resort Cox's Bazar"></div>
+    <div class="wrap in">
+      <div class="crumbs"><a href="#home" data-nav>Home</a> · <a href="#properties" data-nav>All Projects</a> · <span style="color:var(--gold2)">Armin Resort</span></div>
+      <span class="pill">◆ Diaryanagar, Cox's Bazar · Resort &amp; Beachfront Land</span>
+      <h1 style="font-size:clamp(30px,5vw,60px)">Armin <span class="gold-txt">Resort</span></h1>
+      <p class="lead" style="max-width:760px;margin-top:22px">Resort plots and beachfront land at Diaryanagar, Cox's Bazar — in the heart of the Marine Drive corridor, close to Jal Taranga, the Cultural Centre and the Cox's Bazar hotel belt.</p>
+    </div>
+  </section>
+  <section class="blk">
+    <div class="wrap">
+      <div class="anchor-nav rv"><a href="#arm-loc">Neighbourhood</a><a href="#arm-calc">Calculators</a></div>
+      <div class="tiles rv" style="margin-bottom:60px">
+        <div class="tile"><b class="gold-txt" style="font-size:22px;padding-top:8px">Diaryanagar</b><small>Cox's Bazar</small></div>
+        <div class="tile"><b class="gold-txt">Resort</b><small>Land Class</small></div>
+        <div class="tile"><b class="gold-txt">Beach</b><small>Facing</small></div>
+        <div class="tile"><b class="gold-txt">96</b><small>Kisti Available</small></div>
+      </div>
+      <div id="arm-loc" style="margin-bottom:70px">
+        <div class="sec-head rv"><span class="eyebrow">Neighbourhood</span><h2 style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 12px">পাশেই <span class="gold-txt">সবকিছু</span></h2></div>
+        <ul class="checks rv bn">
+          <li>দিরায়ানগর সি বিচ — নিজস্ব সৈকত অঞ্চল</li>
+          <li>সিলেট উপসাগর কক্স বাজার — কালচারাল সেন্টার</li>
+          <li>কক্স বাজার হোটেল ও রিসোর্ট বেল্ট</li>
+          <li>পয়েন্ট সি-বিচ, জল তরঙ্গ ও ট্যাক্সি হোটেল অ্যান্ড রিসোর্টস</li>
+        </ul>
+      </div>
+      <div id="arm-calc">
+        <div class="sec-head rv"><span class="eyebrow">Armin Resort · Calculators</span><h2 style="font-size:clamp(24px,3.2vw,38px);margin:16px 0 0">Plot Price, EMI &amp; <span class="gold-txt">ROI</span></h2></div>
+        <div class="tabs rv"><button class="on" data-t="emi">① Pricing &amp; EMI</button><button data-t="roi">② ROI Projection</button></div>
+        <div class="calc rv" data-calc data-default="armin-resort"></div>
+        <div class="calc rv" data-roi data-default="armin-resort" style="display:none"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : ABOUT  ·  WHY US  ·  TEAM
+============================================================ -->
+<div class="page" id="page-about">
+  <section class="p-hero" style="min-height:44vh">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/05/web-e1779863934304.jpeg" alt="About Dream Lands"></div>
+    <div class="wrap in"><div class="crumbs"><a href="#home" data-nav>Home</a> · <span style="color:var(--gold2)">About Us</span></div>
+      <span class="pill">◆ 12+ Years of Trust</span>
+      <h1 style="font-size:clamp(32px,5.2vw,62px);max-width:880px">A Decade of Giving Bangladeshi Families a Place to <span class="gold-txt">Put Down Roots</span></h1>
+    </div>
+  </section>
+  <section class="blk">
+    <div class="wrap about-grid">
+      <div>
+        <span class="eyebrow rv">About Dream Lands</span>
+        <h2 class="rv" style="font-size:clamp(24px,3.2vw,36px);margin:16px 0 18px">Trust is our foundation</h2>
+        <p class="lead rv"><strong style="color:#eef2f6;font-weight:600">Dream Lands</strong> was founded on a single conviction: every family deserves a property they can rely on. Over twelve years, we've built that trust by finding the right land, handling every legal detail, laying solid infrastructure, and handing you something that genuinely holds its value.</p>
+        <p class="lead rv">No shortcuts. No fine-print surprises. Just planned communities, premium towers, and resort destinations built to stand the test of time across Dhaka, Cox's Bazar, and beyond.</p>
+        <div class="rv" style="margin-top:28px"><a href="#properties" class="btn btn-ghost" data-nav>Browse Our Properties →</a></div>
+      </div>
+      <div class="feat-grid rv">
+        <div class="feat"><div class="ico">✦</div><h4>Rajuk Registered</h4><p>All projects fully compliant with Bangladesh's urban authority standards.</p></div>
+        <div class="feat"><div class="ico">◎</div><h4>100% Transparent</h4><p>Clear pricing, clean titles, and no hidden charges ever.</p></div>
+        <div class="feat"><div class="ico">⛨</div><h4>Legal Protection</h4><p>The in-house legal team ensures every transaction is airtight.</p></div>
+        <div class="feat"><div class="ico">⟡</div><h4>After-Sale Support</h4><p>Our relationship doesn't end at handover; we're here for the long term.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-why-us">
+  <section class="blk" style="padding-top:80px">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Why Choose Dream Lands</span>
+        <h2 style="font-size:clamp(30px,4.4vw,52px);margin:16px 0 14px">Six Reasons Clients <span class="gold-txt">Choose Us and Stay.</span></h2>
+        <p class="lead" style="margin:0">In a market where promises are easy, we let our track record speak. Over 1,200 families have settled on Dream Lands properties, every one of them with a clean title, on-time handover, and a price that held.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why rv"><div class="idx">01</div><div class="bar"></div><h3>Safe Investment</h3><p>Every project is financially structured for stability. Your capital is protected by our track record and RAJUK registration, giving you peace of mind from day one.</p></div>
+        <div class="why rv"><div class="idx">02</div><div class="bar"></div><h3>Prime Locations</h3><p>We don't compromise on location. From Dhaka's business corridors to Cox's Bazar's Marine Drive, our sites are chosen for long-term appreciation.</p></div>
+        <div class="why rv"><div class="idx">03</div><div class="bar"></div><h3>Legal Security</h3><p>Clear land titles, fully documented transfers, and in-house legal support. We handle every regulation so you don't have to.</p></div>
+        <div class="why rv"><div class="idx">04</div><div class="bar"></div><h3>Maximum Growth</h3><p>Our properties consistently outperform market averages. Whether residential, commercial, or hospitality, your investment grows with Bangladesh's booming economy.</p></div>
+        <div class="why rv"><div class="idx">05</div><div class="bar"></div><h3>Sustainable Design</h3><p>Modern eco-conscious construction practices, green landscaping, and energy-efficient infrastructure for communities that endure.</p></div>
+        <div class="why rv"><div class="idx">06</div><div class="bar"></div><h3>Dedicated Support</h3><p>From the first inquiry to years after handover, our team is always a call away. We build relationships, not just buildings.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-team">
+  <section class="blk" style="padding-top:80px">
+    <div class="wrap">
+      <div class="sec-head rv" style="text-align:center;margin:0 auto 48px">
+        <span class="eyebrow" style="justify-content:center">The People</span>
+        <h2 style="font-size:clamp(30px,4.4vw,52px);margin:16px 0 0">Our Team</h2>
+      </div>
+      <div class="team-grid">
+        <article class="member rv"><div class="ph"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/07/Ali-Hiyder-Chaireman-e1785562873241.png" alt="Ali Ahmed — Chairman"></div><div class="meta"><h3>Ali Ahmed</h3><span>Chairman</span></div></article>
+        <article class="member rv"><div class="ph"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/04/1000087987-e1781380877489.png" alt="Samir Hossen — Managing Director"></div><div class="meta"><h3>Samir Hossen</h3><span>Managing Director</span></div></article>
+        <article class="member rv"><div class="ph"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/05/Oni_Photo-e1779805770901.png" alt="Raihan Helaly — General Manager"></div><div class="meta"><h3>Raihan Helaly</h3><span>General Manager</span></div></article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     PAGE : CONTACT
+============================================================ -->
+<div class="page" id="page-contact">
+  <section class="p-hero" style="min-height:40vh">
+    <div class="bgimg"><img src="https://dreamlandsbd.com/wp-content/uploads/2026/06/Dream-Lands.png" alt="Connect With Dream Lands"></div>
+    <div class="wrap in"><div class="crumbs"><a href="#home" data-nav>Home</a> · <span style="color:var(--gold2)">Contact</span></div>
+      <h1 style="font-size:clamp(32px,5.2vw,62px)">Connect <span class="gold-txt">With Us</span></h1>
+      <p class="lead" style="max-width:660px;margin-top:18px">Book a free consultation or site visit with Dream Lands and explore the best real estate opportunities across Bangladesh.</p>
+    </div>
+  </section>
+  <section class="blk">
+    <div class="wrap contact-grid">
+      <form class="card rv" id="cForm" style="padding:34px" novalidate>
+        <h3 style="font-size:24px;margin:0 0 6px">Request a Free Consultation</h3>
+        <p class="lead" style="font-size:14px;margin:0 0 24px">Fill in the form and our team will get back to you within one business day.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <label class="field"><span>Full Name</span><input type="text" name="name" placeholder="Your name" required></label>
+          <label class="field"><span>Phone</span><input type="tel" name="phone" placeholder="+880 1XXX-XXXXXX" required></label>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <label class="field"><span>Email</span><input type="email" name="email" placeholder="you@email.com"></label>
+          <label class="field"><span>Interested In</span>
+            <select name="project">
+              <option>Pushpo Eco City</option><option>The Bay Icon — Kolatoli</option>
+              <option>The Imperium Eskaton</option><option>The Bay Icon — Sugandha</option>
+              <option>General Enquiry / Site Visit</option>
+            </select>
+          </label>
+        </div>
+        <label class="field"><span>Message</span><textarea name="msg" placeholder="Tell us what you're looking for…"></textarea></label>
+        <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center">Send Enquiry →</button>
+        <p id="cMsg" style="display:none;margin:16px 0 0;font-size:13.5px;color:var(--jade)">✓ Thank you! Your enquiry has been recorded. Our team will contact you shortly.</p>
+      </form>
+      <div class="glass rv" style="padding:34px">
+        <h3 style="font-size:22px;margin:0 0 10px">Head Office</h3>
+        <div class="info-row"><div class="ic">📍</div><div><small>Head Office</small><b>L K Tower-2 (Level-7), 59 &amp; 61 Gulshan South Avenue, Gulshan-1, Dhaka-1212</b></div></div>
+        <div class="info-row"><div class="ic">🏬</div><div><small>Sales Office</small><b>Hosaf Shopping Complex (Level 3 &amp; 4), 6/9 Outer Circular Road, Malibagh Moor, Dhaka-1217</b></div></div>
+        <div class="info-row"><div class="ic">☎</div><div><small>Hotline</small><b><a href="tel:+8801334756201">+88 01334-756 201</a></b></div></div>
+        <div class="info-row"><div class="ic">✉</div><div><small>Email</small><b><a href="mailto:info@pushpodhara.com">info@pushpodhara.com</a></b></div></div>
+        <div class="info-row"><div class="ic">🕘</div><div><small>Office Hours</small><b>Saturday – Thursday · 10:00 AM – 7:00 PM</b></div></div>
+        <div class="info-row"><div class="ic">✦</div><div><small>Registration</small><b class="gold-txt">RAJUK Registered Developer</b></div></div>
+        <div style="margin-top:26px">
+          <h3 style="font-size:18px;margin:0 0 12px">Our Project Locations</h3>
+          <ul class="checks">
+            <li>Pushpo Belt City — Keraniganj, Dhaka–Mawa Expressway</li>
+            <li>Pushpo Eco City — Dhaka–Mawa Expressway</li>
+            <li>Dhaka Western Valley — Keraniganj, Phase 1 &amp; 2</li>
+            <li>Puspo Homes Larisa — Bhuigol, Narayanganj</li>
+            <li>The Bay Icon — Kolatoli Marine Drive, Cox's Bazar</li>
+            <li>The Bay Icon — Sugandha, Cox's Bazar</li>
+            <li>Armin Resort — Diaryanagar, Cox's Bazar</li>
+            <li>The Imperium — Eskaton, Dhaka</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div>
+        <a href="#home" class="brand" data-nav style="margin-bottom:18px">
+          <div class="brand-mark">D</div>
+          <div class="brand-txt"><strong>Dream Lands</strong><span>Real Estate</span></div>
+        </a>
+        <p class="lead" style="font-size:14px;max-width:330px">Building Dreams. Creating Landmarks. RAJUK registered real estate developer creating planned communities, premium towers and resort destinations across Bangladesh since 2013.</p>
+        <div class="socials">
+          <a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">◉</a>
+          <a href="#" aria-label="YouTube">▶</a><a href="#" aria-label="WhatsApp">✆</a><a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div>
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#home" data-nav>Home</a></li>
+          <li><a href="#about" data-nav>About Us</a></li>
+          <li><a href="#properties" data-nav>Our Properties</a></li>
+          <li><a href="#why-us" data-nav>Why Choose Us</a></li>
+          <li><a href="#calculator" data-nav>EMI Calculator</a></li>
+          <li><a href="#faq" data-nav>FAQ</a></li>
+          <li><a href="#team" data-nav>Our Team</a></li>
+          <li><a href="#contact" data-nav>Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Our Projects</h5>
+        <ul>
+          <li><a href="#pushpo-belt-city" data-nav>Pushpo Belt City</a></li>
+          <li><a href="#pushpo-eco-city" data-nav>Pushpo Eco City</a></li>
+          <li><a href="#dhaka-western-valley" data-nav>Dhaka Western Valley</a></li>
+          <li><a href="#puspo-homes-larisa" data-nav>Puspo Homes · Larisa</a></li>
+          <li><a href="#the-bay-icon-kolatoli" data-nav>The Bay Icon — Kolatoli</a></li>
+          <li><a href="#the-bay-icon-sugandha" data-nav>The Bay Icon — Sugandha</a></li>
+          <li><a href="#armin-resort" data-nav>Armin Resort</a></li>
+          <li><a href="#the-imperium-eskaton" data-nav>The Imperium Eskaton</a></li>
+          <li><a href="#calculator" data-nav style="color:var(--gold2)">EMI &amp; ROI Calculator →</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Get in Touch</h5>
+        <ul>
+          <li>📍 L K Tower-2 (L-7), Gulshan South Ave, Gulshan-1, Dhaka</li>
+          <li>🏬 Hosaf Complex (L-3&amp;4), Malibagh Moor, Dhaka</li>
+          <li>☎ <a href="tel:+8801334756201">+88 01334-756 201</a></li>
+          <li>✉ <a href="mailto:info@pushpodhara.com">info@pushpodhara.com</a></li>
+          <li>✦ RAJUK Registered · Pushpodhara Group</li>
+          <li>🕘 Sat – Thu · 10 AM – 7 PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© <span id="yr"></span> Dream Lands. All rights reserved.</span>
+      <span>Building Dreams · Creating Landmarks</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating call button -->
+<a href="tel:+8801334756201" style="position:fixed;right:20px;bottom:20px;z-index:70;width:56px;height:56px;border-radius:50%;background:var(--grad-gold);color:#0a0c0f;display:grid;place-items:center;font-size:20px;box-shadow:0 14px 36px rgba(211,171,99,.45)" title="Call Dream Lands">☎</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* ---------- ROUTER ---------- */
+const ROUTES = ['home','about','properties','pushpo-eco-city','pushpo-belt-city','dhaka-western-valley','puspo-homes-larisa','the-bay-icon-kolatoli','the-bay-icon-sugandha','armin-resort','the-imperium-eskaton','why-us','calculator','faq','team','contact'];
+const NAV_MAP = {'about':'about','properties':'#properties','why-us':'why-us','team':'team','contact':'contact'};
+
+function show(route,scroll){
+  if(!ROUTES.includes(route)) route='home';
+  let anchor = null;
+  if(route === 'properties'){ anchor = 'properties-anchor'; route = 'home'; }
+  if(route === 'calculator'){ anchor = 'calculator-anchor'; route = 'home'; }
+  if(route === 'faq'){ anchor = 'faq-anchor'; route = 'home'; }
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el = document.getElementById('page-'+route);
+  if(el) el.classList.add('active');
+  const isProject = ['properties','pushpo-eco-city','pushpo-belt-city','dhaka-western-valley','puspo-homes-larisa','the-bay-icon-kolatoli','the-bay-icon-sugandha','armin-resort','the-imperium-eskaton'].includes(route);
+  document.querySelectorAll('.menu>a, .menu button').forEach(a=>{
+    const h = a.getAttribute('href') || a.getAttribute('data-nav') || '';
+    const target = h.replace('#','');
+    a.classList.toggle('active', target===route || (target==='properties' && isProject));
+  });
+  document.title = ({
+    home:'Dream Lands — Building Dreams. Creating Landmarks. | RAJUK Registered',
+    about:'About Us — Dream Lands | 12+ Years of Trust',
+    properties:'Our Properties — Dream Lands',
+    'pushpo-eco-city':'Pushpo Eco City — Eco-Friendly Residential Living Near Dhaka',
+    'the-bay-icon-kolatoli':"The Bay Icon International Hotel & Resort — Kolatoli, Cox's Bazar",
+    'the-imperium-eskaton':'The Imperium Eskaton — Commercial Landmark, Dhaka',
+    'the-bay-icon-sugandha':"The Bay Icon Sugandha — Beachfront, Cox's Bazar",
+    'why-us':'Why Choose Dream Lands — Six Reasons',
+    team:'Our Team — Dream Lands',
+    contact:'Connect With Us — Dream Lands'
+  })[route] || 'Dream Lands';
+  if(anchor){
+    const t=document.getElementById(anchor);
+    if(t) setTimeout(()=>t.scrollIntoView({behavior:'smooth',block:'start'}),70);
+  } else {
+    window.scrollTo(0,0);
+  }
+  observeReveals();
+  runCounters();
+}
+function go(hash){ location.hash = hash; }
+
+document.addEventListener('click',e=>{
+  const a = e.target.closest('a[data-nav]');
+  if(!a) return;
+  const h = a.getAttribute('href');
+  if(!h || !h.startsWith('#')) return;
+  e.preventDefault();
+  document.getElementById('mobile').classList.remove('open');
+  document.getElementById('burger').classList.remove('open');
+  history.pushState(null,'',h);
+  show(h.slice(1));
+});
+window.addEventListener('hashchange',()=>show((location.hash||'#home').slice(1),false));
+document.querySelectorAll('.anchor-nav a').forEach(l=>l.addEventListener('click',ev=>{
+  ev.preventDefault();
+  const t=document.querySelector(l.getAttribute('href'));
+  if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+}));
+
+/* ---------- MOBILE MENU ---------- */
+const burger=document.getElementById('burger'), mob=document.getElementById('mobile');
+burger.addEventListener('click',()=>{burger.classList.toggle('open');mob.classList.toggle('open')});
+
+/* ---------- NAV SOLID + PROGRESS ---------- */
+const nav=document.getElementById('nav'), prog=document.getElementById('prog');
+addEventListener('scroll',()=>{
+  nav.classList.toggle('solid', scrollY>20);
+  const h=document.documentElement.scrollHeight-innerHeight;
+  prog.style.width=(h>0?(scrollY/h)*100:0)+'%';
+},{passive:true});
+
+/* ---------- REVEAL ---------- */
+let io;
+function observeReveals(){
+  if(io) io.disconnect();
+  io=new IntersectionObserver((ents)=>{
+    ents.forEach((en,i)=>{ if(en.isIntersecting){ setTimeout(()=>en.target.classList.add('in'), Math.min(i*70,420)); io.unobserve(en.target);} });
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  const act=document.querySelector('.page.active');
+  if(act) act.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el));
+}
+
+/* ---------- COUNTERS ---------- */
+let cio;
+function runCounters(){
+  if(cio) cio.disconnect();
+  cio=new IntersectionObserver(ents=>{
+    ents.forEach(en=>{
+      if(!en.isIntersecting) return;
+      const el=en.target, to=+el.dataset.to, dur=1800, t0=performance.now();
+      (function step(t){
+        const p=Math.min((t-t0)/dur,1), eased=1-Math.pow(1-p,3);
+        el.textContent=Math.floor(to*eased).toLocaleString('en-US');
+        if(p<1) requestAnimationFrame(step); else el.textContent=to.toLocaleString('en-US');
+      })(t0);
+      cio.unobserve(el);
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.page.active .count').forEach(el=>cio.observe(el));
+}
+
+/* ---------- PROPERTY FILTER ---------- */
+document.querySelectorAll('#filters button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#filters button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    const f=b.dataset.f;
+    document.querySelectorAll('#propGrid .prop').forEach(c=>{
+      const ok = f==='all' || (c.dataset.cat||'').includes(f);
+      c.style.display = ok?'':'none';
+      if(ok){c.classList.remove('in');requestAnimationFrame(()=>c.classList.add('in'));}
+    });
+  });
+});
+
+/* ---------- MARQUEE DUPLICATE ---------- */
+const mt=document.getElementById('mmTrack');
+if(mt){ mt.innerHTML += mt.innerHTML; }
+
+/* ---------- CONTACT FORM ---------- */
+const cf=document.getElementById('cForm');
+if(cf){ cf.addEventListener('submit',e=>{ e.preventDefault(); document.getElementById('cMsg').style.display='block'; cf.reset(); }); }
+
+/* ================= MULTI-CURRENCY ================= */
+const RATE=122;                       /* 1 USD = 122 BDT */
+let CUR=localStorage.getItem('dl-cur')||'BDT';
+
+/* ============================================================
+   ⭐ EASY PROJECT PRICING — EDIT ONLY THIS SECTION
+   ------------------------------------------------------------
+   Change the "price" number for any project and the new rate
+   will automatically update:
+   • Project price cards
+   • "From" price on project cards
+   • Full price table
+   • EMI / payment calculator
+   • ROI calculations that use the selected project rate
+
+   Example:
+   The Bay Icon = 40,000 BDT per Sq Ft
+   ============================================================ */
+const PROJECT_PRICING = {
+  'pushpo-belt-city':          { price: 1500000, unit: 'katha' },
+  'pushpo-eco-city':           { price: 900000,  unit: 'katha' },
+  'dhaka-western-valley':      { price: 1900000, unit: 'katha' },
+  'puspo-homes-larisa':        { price: 7200,    unit: 'sqft' },
+  'the-bay-icon-kolatoli':     { price: 40000,   unit: 'sqft' }, // ← EDIT HERE
+  'the-bay-icon-sugandha':     { price: 8500,    unit: 'sqft' },
+  'armin-resort':              { price: 3500000, unit: 'katha' },
+  'the-imperium-eskaton':      { price: 22000,   unit: 'sqft' }
+};
+
+/* Returns the active project-level rate. */
+function projectPrice(projectKey, fallbackPrice){
+  const cfg = PROJECT_PRICING[projectKey];
+  return cfg && Number.isFinite(Number(cfg.price))
+    ? Number(cfg.price)
+    : Number(fallbackPrice || 0);
+}
+
+/* ============================================================ */
+/* ---- DETAILED PROJECT DATA / ORIGINAL TIER DATA ---- */
+const PROJECTS={
+  'pushpo-belt-city':{
+    name:'Pushpo Belt City', kind:'Keraniganj · Dhaka–Mawa Expressway',
+    unit:'katha', unitLabel:'Katha', min:1, max:50, step:1, def:5,
+    appr:18, yield:0,
+    options:[
+      {g:'Block 01', l:'Residential · City Plan',   p:1500000, min:3},
+      {g:'Block 01', l:'Residential · Block Plan',  p:1450000, min:3},
+      {g:'Block 01', l:'Residential · Angle Plan',  p:1400000, min:3},
+      {g:'Block 01', l:'Commercial Plot',           p:2000000, min:2},
+      {g:'Block 02', l:'Residential · City Plan',   p:1200000, min:3},
+      {g:'Block 02', l:'Residential · Block Plan',  p:1150000, min:3},
+      {g:'Block 02', l:'Residential · Angle Plan',  p:1100000, min:3},
+      {g:'Block 02', l:'Commercial Plot',           p:1500000, min:2},
+      {g:'Block 03', l:'Residential · City Plan',   p: 900000, min:3},
+      {g:'Block 03', l:'Residential · Block Plan',  p: 850000, min:3},
+      {g:'Block 03', l:'Residential · Angle Plan',  p: 800000, min:3},
+      {g:'Block 03', l:'Commercial Plot',           p:1200000, min:2}
+    ],
+    plans:[{m:36,g:3},{m:48,g:7},{m:60,g:5},{m:72,g:6},{m:96,g:8}]
+  },
+  'dhaka-western-valley':{
+    name:'Dhaka Western Valley', kind:'Keraniganj · Phase 1 & 2',
+    unit:'katha', unitLabel:'Katha', min:1, max:100, step:1, def:5,
+    appr:16, yield:0,
+    options:[
+      {g:'Phase 1', l:'Commercial Plot · City',     p:2800000, min:2},
+      {g:'Phase 1', l:'Residential · City Plan',    p:2700000, min:3},
+      {g:'Phase 1', l:'Residential · Block Plan',   p:2200000, min:3},
+      {g:'Phase 1', l:'Residential · Angle Plan',   p:2100000, min:3},
+      {g:'Phase 1', l:'Commercial · Angle Plan',    p:2000000, min:2},
+      {g:'Phase 2', l:'Commercial Plot · City',     p:2600000, min:2},
+      {g:'Phase 2', l:'Residential · City Plan',    p:2500000, min:3},
+      {g:'Phase 2', l:'Residential · Block Plan',   p:2000000, min:3},
+      {g:'Phase 2', l:'Residential · Angle Plan',   p:1900000, min:3},
+      {g:'Phase 2', l:'Commercial · Angle Plan',    p:1800000, min:2}
+    ],
+    plans:[{m:36,g:3},{m:48,g:5},{m:60,g:5},{m:72,g:7},{m:96,g:8}]
+  },
+  'pushpo-eco-city':{
+    name:'Pushpo Eco City', kind:'Dhaka–Mawa Expressway · 22 KM from Dhaka',
+    unit:'katha', unitLabel:'Katha', min:1, max:20, step:1, def:5,
+    appr:20, yield:0,
+    options:[
+      {g:'Residential', l:'3 / 4 / 5 Katha Plot',   p:1450000, min:3},
+      {g:'Residential', l:'6 Katha Plot',           p:1500000, min:6},
+      {g:'Res. & Commercial', l:'10 Katha Plot',    p:1650000, min:10},
+      {g:'VIP', l:'20 Katha Plot',                  p:1800000, min:20}
+    ],
+    plans:[{m:3,g:0},{m:36,g:3},{m:60,g:5},{m:96,g:8}]
+  },
+  'the-bay-icon-kolatoli':{
+    name:'The Bay Icon · Kolatoli', kind:"Cox's Bazar · 5-Star Hotel Share",
+    unit:'sqft', unitLabel:'Sq Ft', min:300, max:5000, step:100, def:1000,
+    appr:38, yield:12,
+    options:[
+      {g:'Signature', l:'300 – 999 Sq Ft Share',    p: 40000, min:300},
+      {g:'Signature', l:'2000 Sq Ft Share',         p: 9800, min:2000},
+      {g:'Royal',     l:'1000 / 600 Sq Ft Share',   p:10500, min:600},
+      {g:'Icon',      l:'3000 – 5000 Sq Ft Share',  p:11500, min:3000}
+    ],
+    plans:[{m:12,g:0},{m:24,g:0},{m:36,g:0},{m:60,g:0}]
+  },
+  'the-bay-icon-sugandha':{
+    name:'The Bay Icon · Sugandha', kind:"Cox's Bazar · Beachfront",
+    unit:'sqft', unitLabel:'Sq Ft', min:300, max:5000, step:100, def:800,
+    appr:32, yield:10,
+    options:[
+      {g:'Beachfront', l:'Sea-Facing Share',        p: 8500, min:300},
+      {g:'Beachfront', l:'Premium Sea View',        p: 9200, min:1000},
+      {g:'Beachfront', l:'Corner / VIP Share',      p: 9900, min:2500}
+    ],
+    plans:[{m:12,g:0},{m:24,g:0},{m:36,g:0},{m:60,g:0}]
+  },
+  'armin-resort':{
+    name:'Armin Resort', kind:"Cox's Bazar · Diaryanagar",
+    unit:'katha', unitLabel:'Katha', min:1, max:40, step:1, def:5,
+    appr:26, yield:8,
+    options:[
+      {g:'Resort', l:'Standard Resort Plot',        p:3500000, min:2},
+      {g:'Resort', l:'Beach-Facing Plot',           p:4200000, min:2},
+      {g:'Resort', l:'Commercial Resort Land',      p:5000000, min:5}
+    ],
+    plans:[{m:36,g:3},{m:60,g:5},{m:96,g:8}]
+  },
+  'puspo-homes-larisa':{
+    name:'Puspo Homes · Larisa', kind:'Bhuigol, Narayanganj · beside Rupayan Town',
+    unit:'sqft', unitLabel:'Sq Ft', min:1150, max:2450, step:50, def:1650,
+    appr:14, yield:6,
+    options:[
+      {g:'3 Bed', l:'3 Bed · 3 Bath · 3 Balcony',   p: 7200, min:1150},
+      {g:'4 Bed', l:'4 Bed · 3 Bath · Servant Qtr', p: 7800, min:1800},
+      {g:'Commercial', l:'Ground Floor Shop',       p:14000, min:300}
+    ],
+    plans:[{m:24,g:0},{m:36,g:0},{m:48,g:0},{m:60,g:0}]
+  },
+  'the-imperium-eskaton':{
+    name:'The Imperium Eskaton', kind:'Eskaton · Central Dhaka',
+    unit:'sqft', unitLabel:'Sq Ft', min:500, max:6000, step:100, def:1500,
+    appr:15, yield:8,
+    options:[
+      {g:'Commercial', l:'Office Space',            p:22000, min:500},
+      {g:'Commercial', l:'Prime Front Unit',        p:25000, min:1200},
+      {g:'Commercial', l:'Full Floor Plate',        p:21000, min:3000}
+    ],
+    plans:[{m:12,g:0},{m:24,g:0},{m:36,g:0},{m:60,g:0}]
+  }
+};
+const UNIT_LABEL={katha:'Katha',sqft:'Sq Ft'};
+const PROJECT_KEYS=Object.keys(PROJECTS);
+
+function fmt(bdt){
+  const n=Math.round(bdt);
+  return CUR==='BDT' ? '৳'+n.toLocaleString('en-US') : '$'+Math.round(n/RATE).toLocaleString('en-US');
+}
+function renderPrices(){
+  document.querySelectorAll('[data-price-key]').forEach(el=>{
+    const key=el.dataset.priceKey;
+    const cfg=PROJECT_PRICING[key];
+    if(cfg) el.textContent=fmt(cfg.price);
+  });
+  document.querySelectorAll('[data-bdt]').forEach(el=>{ el.textContent=fmt(+el.dataset.bdt); });
+  document.querySelectorAll('.price-value[data-base-bdt]').forEach(el=>{ el.textContent=fmt(+el.dataset.baseBdt); });
+  const rn=document.getElementById('rateNote');
+  if(rn) rn.textContent = CUR==='BDT'
+    ? 'Prices shown in Bangladeshi Taka · 1 USD ≈ ৳'+RATE
+    : 'Prices shown in US Dollar · 1 USD ≈ ৳'+RATE+' BDT';
+  document.querySelectorAll('#curToggle button').forEach(b=>b.classList.toggle('on',b.dataset.cur===CUR));
+}
+document.querySelectorAll('#curToggle button').forEach(b=>{
+  b.addEventListener('click',()=>{ CUR=b.dataset.cur; localStorage.setItem('dl-cur',CUR); renderPrices(); refreshCalcs(); });
+});
+
+/* inject starting price into property cards */
+document.querySelectorAll('#propGrid .prop').forEach(card=>{
+  const a=card.querySelector('h3 a'); if(!a) return;
+  const id=(a.getAttribute('href')||'').replace('#','');
+  const p=PROJECTS[id]; if(!p) return;
+  const lo=projectPrice(id, Math.min.apply(null,p.options.map(o=>o.p)));
+  const line=document.createElement('p');
+  line.className='start-line';
+  line.innerHTML='<small>From</small><b data-bdt="'+lo+'"></b><i>/ '+p.unitLabel+'</i>';
+  card.querySelector('.body').insertBefore(line,card.querySelector('.more'));
+});
+
+/* build compact official price directory */
+(function(){
+  const wrap=document.querySelector('#priceAccordion'); if(!wrap) return;
+  let html='';
+  PROJECT_KEYS.forEach((k,idx)=>{
+    const p=PROJECTS[k];
+    const from=projectPrice(k,Math.min.apply(null,p.options.map(o=>o.p)));
+    const open=idx===0 ? ' open' : '';
+    html+='<article class="price-project'+open+'" data-project="'+k+'">';
+    html+='<button type="button" class="price-project-head" aria-expanded="'+(idx===0?'true':'false')+'">';
+    html+='<span class="price-project-title"><strong>'+p.name+'</strong><span>'+p.kind+'</span></span>';
+    html+='<span class="price-project-meta"><span class="from">From <b class="price-value" data-base-bdt="'+from+'">'+fmt(from)+'</b> / '+p.unitLabel+'</span><span class="count">'+p.options.length+' options</span><span class="chev">+</span></span>';
+    html+='</button><div class="price-project-body"><div class="price-option-grid">';
+    p.options.forEach(o=>{
+      const rate=projectPrice(k,o.p);
+      const plan=p.plans[p.plans.length-1];
+      html+='<div class="price-option">';
+      html+='<div class="price-option-type"><b>'+o.g+'</b><span>'+o.l+'</span></div>';
+      html+='<div class="price-option-price"><b class="price-value" data-base-bdt="'+rate+'">'+fmt(rate)+'</b><small>/ '+p.unitLabel+'</small></div>';
+      html+='<div class="price-option-details"><span class="price-detail">Min <b>'+o.min+' '+p.unitLabel+'</b></span><span class="price-detail booking">Booking <b>20%</b></span><span class="price-detail">Installment <b>'+plan.m+' kisti'+(plan.g?' · '+plan.g+'y grace':'')+'</b></span></div>';
+      html+='</div>';
+    });
+    html+='</div></div></article>';
+  });
+  wrap.innerHTML=html || '<div class="price-empty">No pricing information available.</div>';
+  wrap.querySelectorAll('.price-project-head').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const item=btn.closest('.price-project');
+      const isOpen=item.classList.toggle('open');
+      btn.setAttribute('aria-expanded',isOpen?'true':'false');
+    });
+  });
+  const expand=document.getElementById('expandAllPricing');
+  let expanded=false;
+  expand?.addEventListener('click',()=>{
+    expanded=!expanded;
+    wrap.querySelectorAll('.price-project').forEach(item=>{
+      item.classList.toggle('open',expanded);
+      item.querySelector('.price-project-head')?.setAttribute('aria-expanded',expanded?'true':'false');
+    });
+    expand.textContent=expanded?'Collapse all':'Expand all';
+  });
+  renderPrices();
+})();
+
+/* price card → open calculator with that project */
+document.querySelectorAll('#priceStrip .price-card').forEach(c=>{
+  c.addEventListener('click',()=>{
+    go('#calculator');
+    setTimeout(()=>{
+      const sel=document.querySelector('[data-calc] select[data-c="projSel"]');
+      if(sel){ sel.value=c.dataset.proj; sel.dispatchEvent(new Event('change')); }
+      const rt=document.querySelector('[data-calc-tabs] button[data-t="roi"]');
+    },380);
+  });
+});
+
+/* ================= PRICING / EMI + ROI CALCULATORS ================= */
+function optGroups(key){
+  const p=PROJECTS[key], seen={}, out=[];
+  p.options.forEach((o,i)=>{ (seen[o.g]=seen[o.g]||[]).push({i,o}); });
+  for(const g in seen){
+    out.push('<optgroup class="opt-group" label="'+g+'">'+seen[g].map(x=>
+      '<option value="'+x.i+'">'+x.o.l+' — '+BDT(projectPrice(key,x.o.p))+' / '+p.unitLabel+'</option>').join('')+'</optgroup>');
+  }
+  return out.join('');
+}
+function BDT(n){ return CUR==='BDT' ? '৳'+Math.round(n).toLocaleString('en-US') : '$'+Math.round(n/RATE).toLocaleString('en-US'); }
+const CALC_LIST=[];
+let SHARED={proj:'pushpo-belt-city', opt:0, area:5, book:20, down:60, plan:0, hold:5, appr:18, yld:0, exit:2};
+
+function calcRoot(root,mode){
+  const preset=root.dataset.default||SHARED.proj;
+  if(!PROJECTS[preset]) SHARED.proj=PROJECT_KEYS[0]; else SHARED.proj=preset;
+  const p=PROJECTS[SHARED.proj];
+  const projOpts=PROJECT_KEYS.map(k=>'<option value="'+k+'"'+(k===SHARED.proj?' selected':'')+'>'+PROJECTS[k].name+' — '+PROJECTS[k].kind+'</option>').join('');
+
+  if(mode==='emi'){
+    root.innerHTML=`
+    <div class="calc-in">
+      <span class="eyebrow">Step 01 · Project &amp; price tier</span>
+      <div style="margin:14px 0 22px">
+        <select class="dl" data-c="projSel">${projOpts}</select>
+        <div style="height:10px"></div>
+        <select class="dl" data-c="optSel">${optGroups(SHARED.proj)}</select>
+      </div>
+
+      <span class="eyebrow">Step 02 · Size &amp; payment structure</span>
+      <div style="margin-top:18px">
+        <div class="calc-row"><label>Area / Share Size <b data-c="areaOut"></b></label><input type="range" data-c="area"></div>
+        <div class="calc-row"><label>Booking Money <b data-c="bookOut"></b></label><input type="range" data-c="book" min="10" max="40" step="5" value="20"></div>
+        <div class="calc-row"><label>Down Payment on Balance <b data-c="downOut"></b></label><input type="range" data-c="down" min="20" max="90" step="5" value="60"></div>
+        <div class="calc-row"><label>Instalment Plan <b data-c="planOut"></b></label>
+          <div class="seg" data-c="planSeg"></div></div>
+      </div>
+      <p class="note" style="margin-top:6px">মূল্য পরিশোধের ক্ষেত্রে আপনার পছন্দের প্লটটি আটকে থাকবে · Booking = 20% of total value.</p>
+    </div>
+
+    <div class="calc-out">
+      <span class="eyebrow">Your payment plan</span>
+      <div class="bar-visual">
+        <i data-c="b1" style="background:var(--grad-gold)"></i>
+        <i data-c="b2" style="background:#3ec7a4"></i>
+        <i data-c="b3" style="background:rgba(255,255,255,.35)"></i>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--grad-gold);display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:-1px"></i>Booking</span>
+        <span><i style="background:#3ec7a4;display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:-1px"></i>Down payment</span>
+        <span><i style="background:rgba(255,255,255,.35);display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:-1px"></i>Instalments</span>
+      </div>
+      <div class="out-line"><span>Unit Rate</span><b data-c="rate"></b></div>
+      <div class="out-line"><span>Price Tier</span><b data-c="tier" style="font-size:14px"></b></div>
+      <div class="out-line"><span>Area / Share Size</span><b data-c="area2"></b></div>
+      <div class="out-line"><span>Booking Money (20%)</span><b data-c="book"></b></div>
+      <div class="out-line"><span>Down Payment</span><b data-c="down"></b></div>
+      <div class="out-line"><span>Instalment Amount</span><b data-c="inst"></b></div>
+      <div class="out-line"><span>Grace Period</span><b data-c="grace"></b></div>
+      <div class="out-line total"><span>Monthly Instalment</span><b data-c="emi"></b></div>
+      <div class="out-line total" style="margin-top:10px"><span>Total Property Value</span><b data-c="tot"></b></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <button class="btn btn-gold" data-go-roi style="flex:1;justify-content:center">See ROI →</button>
+        <a href="#contact" class="btn btn-ghost" data-nav style="flex:1;justify-content:center">Get This Plan</a>
+      </div>
+    </div>`;
+  } else {
+    root.innerHTML=`
+    <div class="calc-in">
+      <span class="eyebrow">Step 01 · Project</span>
+      <div style="margin:14px 0 22px">
+        <select class="dl" data-c="projSel">${projOpts}</select>
+        <div style="height:10px"></div>
+        <select class="dl" data-c="optSel">${optGroups(SHARED.proj)}</select>
+      </div>
+      <span class="eyebrow">Step 02 · Investment assumptions</span>
+      <div style="margin-top:18px">
+        <div class="calc-row"><label>Area / Share Size <b data-c="areaOut"></b></label><input type="range" data-c="area"></div>
+        <div class="calc-row"><label>Holding Period <b data-c="holdOut"></b></label><input type="range" data-c="hold" min="1" max="20" step="1" value="5"></div>
+        <div class="calc-row"><label>Capital Appreciation <b data-c="apprOut"></b></label><input type="range" data-c="appr" min="0" max="60" step="1" value="18"></div>
+        <div class="calc-row"><label>Annual Income Yield <b data-c="yldOut"></b></label><input type="range" data-c="yld" min="0" max="25" step="1" value="0"></div>
+        <div class="calc-row"><label>Exit / Selling Cost <b data-c="exitOut"></b></label><input type="range" data-c="exit" min="0" max="10" step="1" value="2"></div>
+      </div>
+      <p class="note" style="margin-top:6px">Appreciation is compounded yearly. Income yield is reinvested (compounding). Projections are indicative models, not a guarantee.</p>
+    </div>
+
+    <div class="calc-out">
+      <span class="eyebrow">Return projection</span>
+      <div class="roi-grid">
+        <div class="roi-kpi hero"><b data-c="roi"></b><small>Total ROI</small></div>
+        <div class="roi-kpi"><b data-c="cagr"></b><small>CAGR / Year</small></div>
+        <div class="roi-kpi"><b data-c="mult"></b><small>Value Multiple</small></div>
+        <div class="roi-kpi"><b data-c="net"></b><small>Net Profit</small></div>
+      </div>
+      <div class="chart" data-c="chart"></div>
+      <div class="chart-x" data-c="chartx"></div>
+      <div class="chart-note">
+        <span><i style="background:var(--grad-gold);display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:-1px"></i>Invested</span>
+        <span><i style="background:linear-gradient(180deg,#6ef0cc,#1e8f72);display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:-1px"></i>Profit</span>
+      </div>
+      <div class="waterfall" data-c="wf"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <a href="#contact" class="btn btn-gold" data-nav style="flex:1;justify-content:center">Request Full Model</a>
+      </div>
+    </div>`;
+  }
+  wire(root,mode);
+}
+
+function wire(root,mode){
+  const q=s=>root.querySelector('[data-c="'+s+'"]');
+  const p=PROJECTS[SHARED.proj];
+  const o=p.options[SHARED.opt]||p.options[0];
+
+  /* project select */
+  q('projSel').addEventListener('change',e=>{
+    SHARED.proj=e.target.value; SHARED.opt=0;
+    const np=PROJECTS[SHARED.proj];
+    q('optSel').innerHTML=optGroups(SHARED.proj);
+    syncArea(); setDefaults(); update();
+  });
+  q('optSel').addEventListener('change',e=>{ SHARED.opt=+e.target.value; syncArea(); update(); });
+  q('area').addEventListener('input',e=>{ SHARED.area=+e.target.value; update(); });
+
+  if(mode==='emi'){
+    q('book').addEventListener('input',e=>{SHARED.book=+e.target.value;update();});
+    q('down').addEventListener('input',e=>{SHARED.down=+e.target.value;update();});
+    root.querySelector('[data-go-roi]').addEventListener('click',()=>{
+      document.querySelector('[data-calc-tabs] button[data-t="roi"]').click();
+      document.getElementById('calculator-anchor').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    renderPlanSeg(root,q);
+  } else {
+    q('hold').addEventListener('input',e=>{SHARED.hold=+e.target.value;update();});
+    q('appr').addEventListener('input',e=>{SHARED.appr=+e.target.value;update();});
+    q('yld').addEventListener('input',e=>{SHARED.yld=+e.target.value;update();});
+    q('exit').addEventListener('input',e=>{SHARED.exit=+e.target.value;update();});
+  }
+
+  function setDefaults(){
+    if(mode==='roi'){
+      SHARED.appr=PROJECTS[SHARED.proj].appr; SHARED.yld=PROJECTS[SHARED.proj].yield;
+      q('appr').value=SHARED.appr; q('yld').value=SHARED.yld;
+    }
+  }
+  function syncArea(){
+    const np=PROJECTS[SHARED.proj], no=np.options[SHARED.opt]||np.options[0];
+    q('area').min=no.min; q('area').max=np.unit==='katha'?Math.max(np.max,no.min*6):np.max; q('area').step=np.step;
+    SHARED.area=Math.max(no.min,np.def); q('area').value=SHARED.area;
+  }
+  syncArea(); setDefaults();
+
+  function renderPlanSeg(root,q){
+    const seg=root.querySelector('[data-c="planSeg"]');
+    const plans=PROJECTS[SHARED.proj].plans;
+    seg.innerHTML=plans.map((pl,i)=>'<button data-m="'+pl.m+'" data-g="'+pl.g+'"'+(i===0?' class="on"':'')+'>'+pl.m+' kisti'+(pl.g?' ('+pl.g+'y grace)':'')+'</button>').join('');
+    SHARED.plan=0;
+    seg.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+      seg.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); SHARED.plan=+b.dataset.m?plans.findIndex(x=>x.m===+b.dataset.m&&x.g===+b.dataset.g):0; update();
+    }));
+  }
+
+  function update(){
+    const P=PROJECTS[SHARED.proj], O=P.options[SHARED.opt]||P.options[0];
+    const rate=projectPrice(SHARED.proj,O.p), area=SHARED.area, total=rate*area;
+    q('areaOut').textContent=area.toLocaleString('en-US')+' '+P.unitLabel;
+
+    if(mode==='emi'){
+      const book=total*SHARED.book/100, balance=total-book, downPay=balance*SHARED.down/100;
+      const instal=balance-downPay, plan=P.plans[Math.max(0,SHARED.plan)]||P.plans[0];
+      const effM=Math.max(plan.m-plan.g*12,12);
+      const emi=instal/effM;
+      q('bookOut').textContent=SHARED.book+'%';
+      q('downOut').textContent=SHARED.down+'%';
+      q('planOut').textContent=plan.m+' kisti'+(plan.g?' · '+plan.g+'y grace':'');
+      q('rate').textContent=fmt2(rate)+' / '+P.unitLabel;
+      q('tier').textContent=O.g+' · '+O.l;
+      q('area2').textContent=area.toLocaleString('en-US')+' '+P.unitLabel;
+      q('book').textContent=fmt2(book);
+      q('down').textContent=fmt2(downPay);
+      q('inst').textContent=fmt2(instal);
+      q('grace').textContent= plan.g? plan.g+' years (no EMI)' : 'None';
+      q('emi').textContent=fmt2(emi)+' /month × '+effM;
+      q('tot').textContent=fmt2(total);
+      q('b1').style.width=(book/total*100)+'%';
+      q('b2').style.width=(downPay/total*100)+'%';
+      q('b3').style.width=(instal/total*100)+'%';
+    } else {
+      const hold=SHARED.hold, appr=SHARED.appr/100, yld=SHARED.yld/100, exit=SHARED.exit/100;
+      const fv=total*Math.pow(1+appr,hold);
+      const income=total*(Math.pow(1+yld,hold)-1);
+      const gross=fv+income, exitCost=gross*exit, net=gross-exitCost;
+      const profit=net-total;
+      const roiP=profit/total*100;
+      const cagr=(Math.pow(net/total,1/hold)-1)*100;
+      const mult=net/total;
+      q('holdOut').textContent=hold+' year'+(hold>1?'s':'');
+      q('apprOut').textContent=SHARED.appr+'% / yr';
+      q('yldOut').textContent=SHARED.yld+'% / yr';
+      q('exitOut').textContent=SHARED.exit+'%';
+      q('roi').textContent=(roiP>=0?'+':'')+roiP.toFixed(0)+'%';
+      q('cagr').textContent=cagr.toFixed(1)+'%';
+      q('mult').textContent=mult.toFixed(2)+'×';
+      q('net').textContent=fmt2(profit);
+      /* chart */
+      const chart=q('chart'), xs=q('chartx');
+      const pts=[]; for(let y=0;y<=hold;y++) pts.push(total*Math.pow(1+appr,y)+(y?total*(Math.pow(1+yld,y)-1):0));
+      const max=Math.max.apply(null,pts)*1.06||1;
+      chart.innerHTML=pts.map(v=>'<div class="col" title="Year '+pts.indexOf(v)+': '+fmt2(v)+'"><i data-profit="'+(v>total)+'" style="height:'+Math.max((v/max)*100,2)+'%"></i></div>').join('');
+      chart.querySelectorAll('i[data-profit="true"]').forEach(i=>i.style.background='linear-gradient(180deg,#6ef0cc,#1e8f72)');
+      xs.innerHTML=pts.map((v,i)=>'<span>Y'+i+'</span>').join('');
+      /* waterfall */
+      q('wf').innerHTML=[
+        ['Total Investment',total,'var(--grad-gold)'],
+        ['Capital Appreciation',fv-total,'linear-gradient(90deg,#6ef0cc,#1e8f72)'],
+        ['Income / Profit Share',income,'linear-gradient(90deg,#8fd4ff,#2f7fbf)'],
+        ['Exit / Selling Cost',-exitCost,'linear-gradient(90deg,#ff9a9a,#c05a5a)'],
+        ['Net Realisable Value',net,'var(--grad-gold)']
+      ].map(r=>'<div class="wf"><span class="lbl">'+r[0]+'</span><span class="track"><i style="width:'+Math.min(Math.abs(r[1])/net*100,100)+'%;background:'+r[2]+'"></i></span><span class="val">'+(r[1]<0?'−':'')+fmt2(Math.abs(r[1]))+'</span></div>').join('');
+    }
+  }
+  update();
+  CALC_LIST.push({update:update, refresh:()=>{ q('optSel').innerHTML=optGroups(SHARED.proj); update(); }});
+}
+function fmt2(n){ return BDT(n); }
+
+/* TABS (scoped to each tab group's container) */
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const scope=b.closest('.tabs').parentElement;
+    scope.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    const emiEl=scope.querySelector('[data-calc]'), roiEl=scope.querySelector('[data-roi]');
+    if(!emiEl||!roiEl) return;
+    if(b.dataset.t==='roi'){ emiEl.style.display='none'; roiEl.style.display='grid'; }
+    else { roiEl.style.display='none'; emiEl.style.display='grid'; }
+    const act=b.dataset.t==='roi'?roiEl:emiEl;
+    act.style.opacity=0; setTimeout(()=>{act.style.transition='opacity .4s';act.style.opacity=1;},20);
+  });
+});
+
+/* BUILD — build ROI first so it inherits the EMI preset */
+document.querySelectorAll('[data-roi]').forEach(r=>calcRoot(r,'roi'));
+document.querySelectorAll('[data-calc]').forEach(r=>calcRoot(r,'emi'));
+
+/* keep calculators in sync with currency toggle */
+function refreshCalcs(){ CALC_LIST.forEach(c=>{ try{ c.refresh(); }catch(e){} }); }
+
+/* ================= FAQ ACCORDION ================= */
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.faq-q'); if(!btn) return;
+  const item=btn.parentElement, body=item.querySelector('.faq-a'), isOpen=item.classList.contains('open');
+  item.parentElement.querySelectorAll('.faq.open').forEach(o=>{
+    if(o!==item){ o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight='0px'; }
+  });
+  item.classList.toggle('open',!isOpen);
+  body.style.maxHeight = isOpen ? '0px' : body.scrollHeight+40+'px';
+});
+
+/* ================= INTERACTIVE MAP WIDGET ================= */
+(function(){
+  const projects = [
+    { id:1, name:"The Bay Icon", loc:"কলাতলী, কক্সবাজার", code:"9XWX+H7Q", lat:21.396462, lng:91.998234 },
+    { id:2, name:"The Bay Icon", loc:"সুগন্ধা বিচ পয়েন্ট, কক্সবাজার", code:"CXGG+P2", lat:21.426812, lng:91.975062 },
+    { id:3, name:"Pushpo Eco City", loc:"ঢাকা-মাওয়া এক্সপ্রেসওয়ে", code:"H8F2+5Q6", lat:23.572913, lng:90.301891 },
+    { id:4, name:"Pushpo Satellite City", loc:"ঢাকা-মাওয়া এক্সপ্রেসওয়ে, শ্রীনগর", code:"H892+28", lat:23.567563, lng:90.300812 },
+    { id:5, name:"Dhaka Western Valley", loc:"মিরপুর বেড়িবাঁধ, বনগাঁও ইউনিয়ন", code:"R896+CCH", lat:23.818562, lng:90.311109 },
+    { id:6, name:"The Imperium Eskaton", loc:"বিএমএ রোড, ইস্কাটন, ঢাকা", code:"P9XX+MC7", lat:23.749163, lng:90.398547 },
+    { id:7, name:"The Pushpo City Luxurious Condominium", loc:"ভুইগড়, নারায়ণগঞ্জ", code:"MFGP+HC3", lat:23.676388, lng:90.486047 }
+  ];
+
+  const map = L.map('dlbd-map', { zoomControl:true, attributionControl:true }).setView([23.6, 90.4], 7);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:18,
+    attribution:'&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  function pinIcon(num, active){
+    const fill = active ? '#e63946' : '#d3ab63';
+    return L.divIcon({
+      className:'',
+      html:`<div class="pin-marker${active ? ' pulse' : ''}">
+              <svg viewBox="0 0 30 38"><path d="M15 0C6.7 0 0 6.7 0 15c0 10.5 15 23 15 23s15-12.5 15-23C30 6.7 23.3 0 15 0z" fill="${fill}" stroke="#0a0c0f" stroke-width="1.2"/></svg>
+              <div class="pin-label">${num}</div>
+            </div>`,
+      iconSize:[30,38],
+      iconAnchor:[15,38],
+      popupAnchor:[0,-34]
+    });
+  }
+
+  const markers = {};
+  projects.forEach(p => {
+    const marker = L.marker([p.lat, p.lng], { icon: pinIcon(p.id, false) }).addTo(map);
+    marker.bindPopup(`<div class="pop-title">${p.id}. ${p.name}</div><div class="pop-loc">${p.loc}</div><div class="pop-code">Plus Code: ${p.code}</div>`);
+    markers[p.id] = marker;
+  });
+
+  const listEl = document.getElementById('dlbd-projectList');
+  const noResultEl = document.getElementById('dlbd-noResult');
+  const searchInput = document.getElementById('dlbd-searchInput');
+
+  function renderList(filter=''){
+    if(!listEl) return;
+    listEl.innerHTML = '';
+    const f = filter.trim().toLowerCase();
+    let visibleCount = 0;
+    projects.forEach(p => {
+      const match = !f || p.name.toLowerCase().includes(f) || p.loc.toLowerCase().includes(f);
+      if(match) visibleCount++;
+      const li = document.createElement('li');
+      li.className = 'project-item' + (match ? '' : ' hidden');
+      li.dataset.id = p.id;
+      li.innerHTML = `
+        <div class="pin-num">${p.id}</div>
+        <div>
+          <div class="p-name">${p.name}</div>
+          <div class="p-loc">${p.loc}</div>
+          <div class="p-code">${p.code}</div>
+        </div>`;
+      li.addEventListener('click', () => focusProject(p.id));
+      listEl.appendChild(li);
+    });
+    if(noResultEl) noResultEl.style.display = (f && visibleCount === 0) ? 'block' : 'none';
+
+    if(f && visibleCount === 1){
+      const match = projects.find(p => p.name.toLowerCase().includes(f) || p.loc.toLowerCase().includes(f));
+      if(match) focusProject(match.id, false);
+    }
+  }
+
+  function focusProject(id){
+    projects.forEach(p => {
+      markers[p.id].setIcon(pinIcon(p.id, p.id === id));
+    });
+    const p = projects.find(x => x.id === id);
+    map.flyTo([p.lat, p.lng], 15, { duration: 0.9 });
+    markers[id].openPopup();
+
+    document.querySelectorAll('.dlbd-map-widget .project-item').forEach(li => {
+      li.classList.toggle('active', Number(li.dataset.id) === id);
+    });
+
+    setTimeout(() => markers[id].setIcon(pinIcon(id, false)), 2200);
+  }
+
+  if(searchInput){
+    searchInput.addEventListener('input', (e) => renderList(e.target.value));
+  }
+
+  renderList();
+})();
+
+/* ---------- INIT ---------- */
+document.getElementById('yr').textContent=new Date().getFullYear();
+renderPrices();
+show((location.hash||'#home').slice(1),false);
+</script>
+</body>
+</html>
